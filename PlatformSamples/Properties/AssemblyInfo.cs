@@ -22,12 +22,10 @@ using My3rdPartyApplication;
 
 // Review the values of the assembly attributes
 
-[assembly:AssemblyTitle("My3rdPartyApplication")]
-[assembly:AssemblyDescription("")]
-[assembly:AssemblyCompany("Sybiz Software")]
-[assembly:AssemblyProduct("My3rdPartyApplication")]
-[assembly:AssemblyCopyright("Copyright © Sybiz Software 2020")]
-[assembly:AssemblyTrademark("")]
+[assembly: AssemblyTitle("PlatformSamples")]
+[assembly: AssemblyCompany("Sybiz Software")]
+[assembly: AssemblyProduct("PlatformSamples")]
+[assembly: AssemblyCopyright("Copyright © Sybiz Software 2020")]
 
 [assembly:ComVisible(false)]
 
