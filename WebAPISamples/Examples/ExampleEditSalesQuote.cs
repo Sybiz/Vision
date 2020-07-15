@@ -1,30 +1,13 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.IO;
 using System.Net;
+using System.IO;
+using System;
 
-public class ExampleEditSalesQuote
+public static class ExampleEditSalesQuote
 {
-	public void EditSalesQuote()
+	public static void EditSalesQuote()
 	{
-		SalesQuote quote = null;
-		var requestList = (HttpWebRequest)WebRequest.Create("https://api.sybiz.com/Beta/API/DR/SalesQuote/1"); // Enter valid sales quote
-		requestList.Headers[HttpRequestHeader.Authorization] = $"Bearer {ExampleBearerToken.GetBearerToken().Access_Token}";
-		requestList.ContentType = "application/JSON";
-		requestList.Timeout = 10000;
-		requestList.Method = "GET";
-
-		using (var response = (HttpWebResponse)requestList.GetResponse())
-		{
-			using (var reader = new StreamReader(response.GetResponseStream()))
-			{
-				var data = reader.ReadToEnd();
-				response.Close();
-				reader.Close();
-				quote = JsonConvert.DeserializeObject<SalesQuote>(data);
-			}
-		}
-
+		SalesQuote quote = ExampleGetSalesQuote.GetSalesQuote();
 		quote.Reference = "Changed Reference";
 
 		foreach (var line in quote.Lines)

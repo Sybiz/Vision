@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using System.Net;
+using System.IO;
+using System;
 
 public class ExampleApiBusinessRuleError
 {

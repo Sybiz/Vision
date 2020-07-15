@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using System.Net;
+using System.IO;
+using System;
 
-public class ExampleGetSalesQuoteList
+public static class ExampleGetSalesQuoteList
 {
-	public void GetSalesQuotes()
+	public static void GetSalesQuotes()
 	{
 		var listQuote = new List<SalesQuote>();
 		var requestList = (HttpWebRequest)WebRequest.Create("https://api.sybiz.com/Beta/API/DR/SalesQuoteProcessingAllOutstandingInfoList");

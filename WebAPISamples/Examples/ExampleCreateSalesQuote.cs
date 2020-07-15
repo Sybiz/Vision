@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.IO;
 using System.Net;
+using System.IO;
+using System;
 
-public class ExampleCreateSalesQuote
+public static class ExampleCreateSalesQuote
 {
-	public void CreateSalesQuote()
+	public static void CreateSalesQuote()
 	{
 		var quote = new SalesQuote();
 		quote.TransactionNumber = "New Quote"; // Only needed when automatic numbering is disabled
@@ -14,7 +14,7 @@ public class ExampleCreateSalesQuote
 
 		var line = new SalesQuoteLine();
 		line.Description = "New Line";
-		line.AccountType = 1;
+		line.AccountType = 2;
 		line.Account = 1; // Enter valid value
 		line.TaxCode = 1; // Enter valid value
 		line.Location = 1; // Enter valid value
@@ -48,6 +48,7 @@ public class ExampleCreateSalesQuote
 			}
 		}
 
+		Console.WriteLine(quote.Id);
 		Console.WriteLine(quote.TransactionNumber); // When automatic numbering is enabled the API returns the generated transaction number
 	}
 }

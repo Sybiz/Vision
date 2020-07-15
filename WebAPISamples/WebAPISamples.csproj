@@ -50,8 +50,10 @@
     <Compile Include="Examples\ExampleApiBusinessRuleError.cs" />
     <Compile Include="Examples\ExampleCreateSalesQuote.cs" />
     <Compile Include="Examples\ExampleBearerToken.cs" />
+    <Compile Include="Examples\ExampleDeleteSalesQuoteLine.cs" />
     <Compile Include="Examples\ExampleGetCustomerSalesPrice.cs" />
     <Compile Include="Examples\ExampleEditSalesQuote.cs" />
+    <Compile Include="Examples\ExampleGetSalesQuote.cs" />
     <Compile Include="Models\ApiBasicError.cs" />
     <Compile Include="Models\ApiBusinessRuleError.cs" />
     <Compile Include="Models\CustomerSalesPrice.cs" />

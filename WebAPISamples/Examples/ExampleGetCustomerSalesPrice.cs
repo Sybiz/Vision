@@ -1,14 +1,14 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.IO;
 using System.Net;
+using System.IO;
+using System;
 
-public class ExampleGetCustomerSalesPrice
+public static class ExampleGetCustomerSalesPrice
 {
-	public void GetCustomerSalesPrice()
+	public static void GetCustomerSalesPrice()
 	{
 		CustomerSalesPrice price = null;
-		var requestPrice = (HttpWebRequest)WebRequest.Create("https://api.sybiz.com/Beta/API/IC/CustomerSalesPrice?Customer=1&Product=1&TaxCode=1&Quantity=5.25&DiscountPercentage=25.25&TransactionDate=14/07/2020"); // Enter valid values
+		var requestPrice = (HttpWebRequest)WebRequest.Create("https://api.sybiz.com/Beta/API/IC/CustomerSalesPrice?Customer=1&Product=1&TaxCode=1&Quantity=5.25&DiscountPercentage=25.25&TransactionDate=12/12/2012"); // Enter valid values
 		requestPrice.Headers[HttpRequestHeader.Authorization] = $"Bearer {ExampleBearerToken.GetBearerToken().Access_Token}";
 		requestPrice.ContentType = "application/JSON";
 		requestPrice.Timeout = 10000;
