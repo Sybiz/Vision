@@ -98,11 +98,11 @@ namespace My3rdPartyApplication
 		{
 			var customerCode = Interaction.InputBox("Enter customer code", "Information Required").Trim();
 			var customerName = Interaction.InputBox("Enter new customer name", "Information Required").Trim();
-			Sybiz.Vision.Platform.Debtors.Customer exisitingCustomer = default(Sybiz.Vision.Platform.Debtors.Customer);
+			Sybiz.Vision.Platform.Debtors.Customer exisitingCustomer = null;
 
 			try
 			{
-				exisitingCustomer = Sybiz.Vision.Platform.Debtors.Customer.GetObject(System.Convert.ToString(customerCode));
+				exisitingCustomer = Sybiz.Vision.Platform.Debtors.Customer.GetObject(customerCode);
 			}
 			catch (Exception)
 			{
@@ -110,7 +110,7 @@ namespace My3rdPartyApplication
 				return;
 			}
 
-			exisitingCustomer.Name = System.Convert.ToString(customerName);
+			exisitingCustomer.Name = customerName;
 
 			//Change primary delivery address details
 			var deliveryAddress = exisitingCustomer.DeliveryAddress.FirstOrDefault(obj => obj.PrimaryAddress);
@@ -401,7 +401,53 @@ namespace My3rdPartyApplication
 			}
 		}
 
-		public void PrintTransactionDocument_Click(object sender, EventArgs e)
+        public void CreateCustomerJournal_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //Create a customer journal in transaction mode without offsetting
+
+                var customerCode = Interaction.InputBox("Enter customer code", "Information Required").Trim();
+                var accountCode = Interaction.InputBox("Enter general ledger account code", "Information Required").Trim();
+
+                int customerId = Sybiz.Vision.Platform.Debtors.CustomerDetailInfo.GetObject(customerCode).Id;
+                int accountId = Sybiz.Vision.Platform.GeneralLedger.AccountDetailInfo.GetObject(accountCode).Id;
+
+                var customerJournal = Sybiz.Vision.Platform.Debtors.Transaction.CustomerJournal.NewObject(null);
+                customerJournal.OffsetMethod = Sybiz.Vision.Platform.Core.Enumerations.OffsetMethod.ByTransaction;
+
+                var newLine = customerJournal.Lines.AddNew();
+
+                //Customer account primary key value
+                newLine.Customer = customerId;
+
+                //General ledger primary key value, required to offset postings if not offsetting
+                //Normally to either bad debts, suspense account or discounts given
+                newLine.Account = accountId;
+
+                //Only set a single entry to a value, otherwise the other value will be overriden
+                newLine.Debit = 25M;
+                newLine.Credit = 0M; 
+
+                if (customerJournal.IsProcessable)
+                {
+                    customerJournal = customerJournal.Process();
+                    MessageBox.Show($"Transaction succesfully processed for [{customerJournal.TransactionNumber}]");
+                }
+                else if (customerJournal.IsValid)
+                {
+                    customerJournal = customerJournal.Save();
+                    MessageBox.Show($"Transaction succesfully saved for [{customerJournal.TransactionNumber}]");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error creating transaction {ex.Message}");
+            }
+        }
+
+        public void PrintTransactionDocument_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("See code behind to understand how this feature works");
 			return;

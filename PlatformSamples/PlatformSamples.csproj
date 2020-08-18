@@ -88,6 +88,9 @@
     <Compile Include="Platform\Common.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Platform\GeneralLedger.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Platform\Jobs.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -334,5 +334,52 @@ namespace My3rdPartyApplication
             }
 
         }
+
+        public void CreateSupplierJournal_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //Create a supplier journal in transaction mode without offsetting
+
+                var supplierCode = Interaction.InputBox("Enter supplier code", "Information Required").Trim();
+                var accountCode = Interaction.InputBox("Enter general ledger account code", "Information Required").Trim();
+
+                int supplierId = Sybiz.Vision.Platform.Creditors.SupplierDetailInfo.GetObject(supplierCode).Id;
+                int accountId = Sybiz.Vision.Platform.GeneralLedger.AccountDetailInfo.GetObject(accountCode).Id;
+
+                var supplierJournal = Sybiz.Vision.Platform.Creditors.Transaction.SupplierJournal.NewObject(null);
+                supplierJournal.OffsetMethod = Sybiz.Vision.Platform.Core.Enumerations.OffsetMethod.ByTransaction;
+
+                var newLine = supplierJournal.Lines.AddNew();
+
+                //Supplier account primary key value
+                newLine.Supplier = supplierId;
+
+                //General ledger primary key value, required to offset postings if not offsetting
+                //Normally to either bad debts, suspense account or discounts given
+                newLine.Account = accountId;
+
+                //Only set a single entry to a value, otherwise the other value will be overriden
+                newLine.Debit = 0M;
+                newLine.Credit = 300M;
+
+                if (supplierJournal.IsProcessable)
+                {
+                    supplierJournal = supplierJournal.Process();
+                    MessageBox.Show($"Transaction succesfully processed for [{supplierJournal.TransactionNumber}]");
+                }
+                else if (supplierJournal.IsValid)
+                {
+                    supplierJournal = supplierJournal.Save();
+                    MessageBox.Show($"Transaction succesfully saved for [{supplierJournal.TransactionNumber}]");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error creating transaction {ex.Message}");
+            }
+        }
+
     }
 }
