@@ -80,6 +80,7 @@ namespace My3rdPartyApplication
 			this.CopyProduct = new System.Windows.Forms.Button();
 			this.CreateProduct = new System.Windows.Forms.Button();
 			this.TabCreditors = new System.Windows.Forms.TabPage();
+			this.CreateSupplierJournal = new System.Windows.Forms.Button();
 			this.EditSupplier = new System.Windows.Forms.Button();
 			this.ModifyCreditorDefaults = new System.Windows.Forms.Button();
 			this.CreateSupplier = new System.Windows.Forms.Button();
@@ -88,6 +89,7 @@ namespace My3rdPartyApplication
 			this.CreatePR = new System.Windows.Forms.Button();
 			this.ApprovePR = new System.Windows.Forms.Button();
 			this.TabDebtors = new System.Windows.Forms.TabPage();
+			this.CreateCustomerJournal = new System.Windows.Forms.Button();
 			this.EmailTransactionDocument = new System.Windows.Forms.Button();
 			this.PrintTransactionDocument = new System.Windows.Forms.Button();
 			this.CreateNewIndustry = new System.Windows.Forms.Button();
@@ -110,6 +112,8 @@ namespace My3rdPartyApplication
 			this.GetLoggedInUserInfo = new System.Windows.Forms.Button();
 			this.GetCompanyConnectionString = new System.Windows.Forms.Button();
 			this.TabControl1 = new System.Windows.Forms.TabControl();
+			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.CreateGeneralLedgerJournal = new System.Windows.Forms.Button();
 			this.TabJobs.SuspendLayout();
 			this.TabService.SuspendLayout();
 			this.TabCRM.SuspendLayout();
@@ -121,6 +125,7 @@ namespace My3rdPartyApplication
 			this.TabDebtors.SuspendLayout();
 			this.TabCommon.SuspendLayout();
 			this.TabControl1.SuspendLayout();
+			this.tabPage1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// OKButton
@@ -450,6 +455,7 @@ namespace My3rdPartyApplication
 			// 
 			// TabCreditors
 			// 
+			this.TabCreditors.Controls.Add(this.CreateSupplierJournal);
 			this.TabCreditors.Controls.Add(this.EditSupplier);
 			this.TabCreditors.Controls.Add(this.ModifyCreditorDefaults);
 			this.TabCreditors.Controls.Add(this.CreateSupplier);
@@ -463,6 +469,16 @@ namespace My3rdPartyApplication
 			this.TabCreditors.Size = new System.Drawing.Size(611, 206);
 			this.TabCreditors.TabIndex = 3;
 			this.TabCreditors.Text = "Creditors";
+			// 
+			// CreateSupplierJournal
+			// 
+			this.CreateSupplierJournal.Location = new System.Drawing.Point(415, 6);
+			this.CreateSupplierJournal.Name = "CreateSupplierJournal";
+			this.CreateSupplierJournal.Size = new System.Drawing.Size(178, 23);
+			this.CreateSupplierJournal.TabIndex = 22;
+			this.CreateSupplierJournal.Text = "Create Supplier Journal";
+			this.CreateSupplierJournal.UseVisualStyleBackColor = true;
+			this.CreateSupplierJournal.Click += new System.EventHandler(this.CreateSupplierJournal_Click);
 			// 
 			// EditSupplier
 			// 
@@ -536,6 +552,7 @@ namespace My3rdPartyApplication
 			// 
 			// TabDebtors
 			// 
+			this.TabDebtors.Controls.Add(this.CreateCustomerJournal);
 			this.TabDebtors.Controls.Add(this.EmailTransactionDocument);
 			this.TabDebtors.Controls.Add(this.PrintTransactionDocument);
 			this.TabDebtors.Controls.Add(this.CreateNewIndustry);
@@ -551,6 +568,16 @@ namespace My3rdPartyApplication
 			this.TabDebtors.Size = new System.Drawing.Size(611, 206);
 			this.TabDebtors.TabIndex = 2;
 			this.TabDebtors.Text = "Debtors";
+			// 
+			// CreateCustomerJournal
+			// 
+			this.CreateCustomerJournal.Location = new System.Drawing.Point(402, 12);
+			this.CreateCustomerJournal.Name = "CreateCustomerJournal";
+			this.CreateCustomerJournal.Size = new System.Drawing.Size(178, 23);
+			this.CreateCustomerJournal.TabIndex = 21;
+			this.CreateCustomerJournal.Text = "Create Customer Journal";
+			this.CreateCustomerJournal.UseVisualStyleBackColor = true;
+			this.CreateCustomerJournal.Click += new System.EventHandler(this.CreateCustomerJournal_Click);
 			// 
 			// EmailTransactionDocument
 			// 
@@ -784,11 +811,33 @@ namespace My3rdPartyApplication
 			this.TabControl1.Controls.Add(this.TabCRM);
 			this.TabControl1.Controls.Add(this.TabService);
 			this.TabControl1.Controls.Add(this.TabJobs);
+			this.TabControl1.Controls.Add(this.tabPage1);
 			this.TabControl1.Location = new System.Drawing.Point(12, 12);
 			this.TabControl1.Name = "TabControl1";
 			this.TabControl1.SelectedIndex = 0;
 			this.TabControl1.Size = new System.Drawing.Size(619, 232);
 			this.TabControl1.TabIndex = 5;
+			// 
+			// tabPage1
+			// 
+			this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
+			this.tabPage1.Controls.Add(this.CreateGeneralLedgerJournal);
+			this.tabPage1.Location = new System.Drawing.Point(4, 22);
+			this.tabPage1.Name = "tabPage1";
+			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage1.Size = new System.Drawing.Size(611, 206);
+			this.tabPage1.TabIndex = 12;
+			this.tabPage1.Text = "General Ledger";
+			// 
+			// CreateGeneralLedgerJournal
+			// 
+			this.CreateGeneralLedgerJournal.Location = new System.Drawing.Point(216, 92);
+			this.CreateGeneralLedgerJournal.Name = "CreateGeneralLedgerJournal";
+			this.CreateGeneralLedgerJournal.Size = new System.Drawing.Size(178, 23);
+			this.CreateGeneralLedgerJournal.TabIndex = 22;
+			this.CreateGeneralLedgerJournal.Text = "Create Journal";
+			this.CreateGeneralLedgerJournal.UseVisualStyleBackColor = true;
+			this.CreateGeneralLedgerJournal.Click += new System.EventHandler(this.CreateGeneralLedgerJournal_Click);
 			// 
 			// MainForm
 			// 
@@ -817,6 +866,7 @@ namespace My3rdPartyApplication
 			this.TabDebtors.ResumeLayout(false);
 			this.TabCommon.ResumeLayout(false);
 			this.TabControl1.ResumeLayout(false);
+			this.tabPage1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -882,6 +932,10 @@ namespace My3rdPartyApplication
 		internal Button GetLoggedInUserInfo;
 		internal Button GetCompanyConnectionString;
 		internal TabControl TabControl1;
-	}
+        internal Button CreateSupplierJournal;
+        internal Button CreateCustomerJournal;
+        private TabPage tabPage1;
+        internal Button CreateGeneralLedgerJournal;
+    }
 	
 }

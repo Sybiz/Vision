@@ -65,66 +65,66 @@ namespace My3rdPartyApplication
 			Application.Exit();
 		}
 
-		#endregion
-
-		#region  Creditors
 
 
+        #endregion
 
-
-		#endregion
-
-		#region  Inventory
+        #region  Creditors
 
 
 
 
-		#endregion
+        #endregion
 
-		#region  Manufacturing
-
-
-
-
-		#endregion
-
-		#region  Cashbook
+        #region  Inventory
 
 
 
 
+        #endregion
 
-		#endregion
+        #region  Manufacturing
 
-		#region  Administration
 
-		#endregion
 
-		#region  CRM
+
+        #endregion
+
+        #region  Cashbook
 
 
 
 
 
-		#endregion
+        #endregion
 
-		#region  Service
+        #region  Administration
 
+        #endregion
 
-
-		#endregion
-
-		#region  Jobs
+        #region  CRM
 
 
 
 
 
+        #endregion
 
-		#endregion
+        #region  Service
 
 
 
-	}
+        #endregion
+
+        #region  Jobs
+
+
+
+
+
+
+        #endregion
+
+    }
 
 }
