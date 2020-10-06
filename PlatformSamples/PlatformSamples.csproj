@@ -58,19 +58,19 @@
     <Reference Include="mscorlib" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Csla">
-      <HintPath>..\..\..\..\..\Program Files\Sybiz\Sybiz Vision\Csla.dll</HintPath>
+      <HintPath>Dependencies\Csla.dll</HintPath>
     </Reference>
     <Reference Include="Sybiz.Vision.Module.Coordinator, Version=16.20.6248.25916, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Program Files\Sybiz\Sybiz Vision\Sybiz.Vision.Module.Coordinator.dll</HintPath>
+      <HintPath>Dependencies\Sybiz.Vision.Module.Coordinator.dll</HintPath>
     </Reference>
     <Reference Include="Sybiz.Vision.Platform, Version=16.20.6248.25913, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Program Files\Sybiz\Sybiz Vision\Sybiz.Vision.Platform.dll</HintPath>
+      <HintPath>Dependencies\Sybiz.Vision.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Sybiz.Vision.WinUI, Version=16.20.6248.25917, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>Dependencies\Sybiz.Vision.WinUI.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Program Files\Sybiz\Sybiz Vision\Sybiz.Vision.WinUI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />

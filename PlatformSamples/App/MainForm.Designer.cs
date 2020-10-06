@@ -89,6 +89,8 @@ namespace My3rdPartyApplication
 			this.CreatePR = new System.Windows.Forms.Button();
 			this.ApprovePR = new System.Windows.Forms.Button();
 			this.TabDebtors = new System.Windows.Forms.TabPage();
+			this.ReprintTransactionDocument = new System.Windows.Forms.Button();
+			this.CreateSalesOrderWithDeposit = new System.Windows.Forms.Button();
 			this.CreateCustomerJournal = new System.Windows.Forms.Button();
 			this.EmailTransactionDocument = new System.Windows.Forms.Button();
 			this.PrintTransactionDocument = new System.Windows.Forms.Button();
@@ -552,6 +554,8 @@ namespace My3rdPartyApplication
 			// 
 			// TabDebtors
 			// 
+			this.TabDebtors.Controls.Add(this.ReprintTransactionDocument);
+			this.TabDebtors.Controls.Add(this.CreateSalesOrderWithDeposit);
 			this.TabDebtors.Controls.Add(this.CreateCustomerJournal);
 			this.TabDebtors.Controls.Add(this.EmailTransactionDocument);
 			this.TabDebtors.Controls.Add(this.PrintTransactionDocument);
@@ -568,6 +572,26 @@ namespace My3rdPartyApplication
 			this.TabDebtors.Size = new System.Drawing.Size(611, 206);
 			this.TabDebtors.TabIndex = 2;
 			this.TabDebtors.Text = "Debtors";
+			// 
+			// ReprintTransactionDocument
+			// 
+			this.ReprintTransactionDocument.Location = new System.Drawing.Point(402, 120);
+			this.ReprintTransactionDocument.Name = "ReprintTransactionDocument";
+			this.ReprintTransactionDocument.Size = new System.Drawing.Size(178, 23);
+			this.ReprintTransactionDocument.TabIndex = 23;
+			this.ReprintTransactionDocument.Text = "Reprint Transaction Document";
+			this.ReprintTransactionDocument.UseVisualStyleBackColor = true;
+			this.ReprintTransactionDocument.Click += new System.EventHandler(this.ReprintTransactionDocument_Click);
+			// 
+			// CreateSalesOrderWithDeposit
+			// 
+			this.CreateSalesOrderWithDeposit.Location = new System.Drawing.Point(402, 41);
+			this.CreateSalesOrderWithDeposit.Name = "CreateSalesOrderWithDeposit";
+			this.CreateSalesOrderWithDeposit.Size = new System.Drawing.Size(178, 23);
+			this.CreateSalesOrderWithDeposit.TabIndex = 22;
+			this.CreateSalesOrderWithDeposit.Text = "Create Sales Order With Deposit";
+			this.CreateSalesOrderWithDeposit.UseVisualStyleBackColor = true;
+			this.CreateSalesOrderWithDeposit.Click += new System.EventHandler(this.CreateSalesOrderWithDeposit_Click);
 			// 
 			// CreateCustomerJournal
 			// 
@@ -936,6 +960,8 @@ namespace My3rdPartyApplication
         internal Button CreateCustomerJournal;
         private TabPage tabPage1;
         internal Button CreateGeneralLedgerJournal;
+        internal Button CreateSalesOrderWithDeposit;
+        internal Button ReprintTransactionDocument;
     }
 	
 }
