@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Net;
 using System.IO;
@@ -9,7 +9,7 @@ public static class ExampleGetSalesQuoteList
 	public static void GetSalesQuotes()
 	{
 		var listQuote = new List<SalesQuote>();
-		var requestList = (HttpWebRequest)WebRequest.Create("https://api.sybiz.com/Beta/API/DR/SalesQuoteProcessingAllOutstandingInfoList");
+		var requestList = (HttpWebRequest)WebRequest.Create($"{CONFIG.ADDRESS}/API/DR/SalesQuoteProcessingAllOutstandingInfoList");
 		requestList.Headers[HttpRequestHeader.Authorization] = $"Bearer {ExampleBearerToken.GetBearerToken().Access_Token}";
 		requestList.ContentType = "application/JSON";
 		requestList.Timeout = 10000;
