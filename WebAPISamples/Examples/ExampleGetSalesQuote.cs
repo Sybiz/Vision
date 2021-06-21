@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System.Net;
 using System.IO;
 
@@ -7,7 +7,7 @@ public static class ExampleGetSalesQuote
     public static SalesQuote GetSalesQuote()
     {
         SalesQuote quote = null;
-        HttpWebRequest requestList = (HttpWebRequest)WebRequest.Create("https://api.sybiz.com/Beta/API/DR/SalesQuote/1"); // Enter valid sales quote
+        HttpWebRequest requestList = (HttpWebRequest)WebRequest.Create($"{CONFIG.ADDRESS}/API/DR/SalesQuote/1"); // Enter valid sales quote
         requestList.Headers[HttpRequestHeader.Authorization] = $"Bearer {ExampleBearerToken.GetBearerToken().Access_Token}";
         requestList.ContentType = "application/JSON";
         requestList.Timeout = 10000;
