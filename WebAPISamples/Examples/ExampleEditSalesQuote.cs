@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System.Net;
 using System.IO;
 using System;
@@ -16,10 +16,11 @@ public static class ExampleEditSalesQuote
 		}
 
 		var jsonQuote = JsonConvert.SerializeObject(quote);
-		var requestCreate = (HttpWebRequest)WebRequest.Create("https://api.sybiz.com/Beta/API/DR/SalesQuote?process=true");
+		var requestCreate = (HttpWebRequest)WebRequest.Create($"{CONFIG.ADDRESS}/API/DR/SalesQuote?process=true");
 		requestCreate.Headers[HttpRequestHeader.Authorization] = $"Bearer {ExampleBearerToken.GetBearerToken().Access_Token}";
 		requestCreate.ContentType = "application/JSON";
 		requestCreate.ContentLength = jsonQuote.Length;
+		requestCreate.Timeout = 10000;
 		requestCreate.Method = "POST";
 
 		using (var writer = new StreamWriter(requestCreate.GetRequestStream()))
