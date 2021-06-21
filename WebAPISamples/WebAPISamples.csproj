@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.cs" />
     <Compile Include="Examples\ExampleApiBasicError.cs" />
     <Compile Include="Examples\ExampleApiBusinessRuleError.cs" />
     <Compile Include="Examples\ExampleCreateSalesQuote.cs" />
