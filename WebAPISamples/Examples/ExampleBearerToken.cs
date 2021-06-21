@@ -1,20 +1,17 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System.Net;
 using System.IO;
 
 public static class ExampleBearerToken
 {
-    //Change to valid username & password
-    static string userName = "xxx";
-    static string password = "yyy";
-
 	public static BearerToken GetBearerToken()
 	{
 		BearerToken token = null;
-		var jsonToken = $"grant_type=password&database=MobileRelease&username={userName}&password={password}"; 
-		var requestBearer = (HttpWebRequest)WebRequest.Create("https://api.sybiz.com/Beta/API/ADM/Bearer");
+		var jsonToken = $"grant_type=password&database={CONFIG.DATABASE}&username={CONFIG.USERNAME}&password={CONFIG.PASSWORD}&keys={CONFIG.KEYS}";
+		var requestBearer = (HttpWebRequest)WebRequest.Create($"{CONFIG.ADDRESS}/API/Bearer");
 		requestBearer.ContentType = "application/x-www-form-urlencoded";
 		requestBearer.ContentLength = jsonToken.Length;
+		requestBearer.Timeout = 10000;
 		requestBearer.Method = "POST";
 
 		using (var writer = new StreamWriter(requestBearer.GetRequestStream()))
