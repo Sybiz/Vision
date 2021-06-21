@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System.Net;
 using System.IO;
 using System;
@@ -7,27 +7,28 @@ public static class ExampleCreateSalesQuote
 {
 	public static void CreateSalesQuote()
 	{
-		var quote = new SalesQuote();
-		quote.TransactionNumber = "New Quote"; // Only needed when automatic numbering is disabled
-		quote.Reference = "New Quote";
-		quote.OrderCustomer = 1; // Enter valid value
-
-		var line = new SalesQuoteLine();
-		line.Description = "New Line";
-		line.AccountType = 2;
-		line.Account = 1; // Enter valid value
-		line.TaxCode = 1; // Enter valid value
-		line.Location = 1; // Enter valid value
-		line.UnitOfMeasure = 1; // Enter valid value
-		line.Quantity = 5.25M;
-		line.UnitChargeExclusive = 9.99M;
-		quote.Lines.Add(line);
-
-		var jsonQuote = JsonConvert.SerializeObject(quote);
-		var requestCreate = (HttpWebRequest)WebRequest.Create("https://api.sybiz.com/Beta/API/DR/SalesQuote?process=true"); // Set process to false to save the quote instead
+        	var quote = new SalesQuote();
+        	quote.TransactionNumber = "New Quote"; // Only needed when automatic numbering is disabled
+        	quote.Reference = "New Quote";
+        	quote.OrderCustomer = 1; // Enter valid value
+	
+        	var line = new SalesQuoteLine();
+        	line.Description = "New Line";
+        	line.AccountType = 2;
+        	line.Account = 1; // Enter valid value
+        	line.TaxCode = 1; // Enter valid value
+        	line.Location = 1; // Enter valid value
+        	line.UnitOfMeasure = 1; // Enter valid value
+        	line.Quantity = 5.25M;
+        	line.UnitChargeExclusive = 9.99M;
+        	quote.Lines.Add(line);
+	
+        	var jsonQuote = JsonConvert.SerializeObject(quote);
+		var requestCreate = (HttpWebRequest)WebRequest.Create($"{CONFIG.ADDRESS}/API/DR/SalesQuote?process=true"); // Set process to false to save the quote instead
 		requestCreate.Headers[HttpRequestHeader.Authorization] = $"Bearer {ExampleBearerToken.GetBearerToken().Access_Token}";
 		requestCreate.ContentType = "application/JSON";
 		requestCreate.ContentLength = jsonQuote.Length;
+		requestCreate.Timeout = 10000;
 		requestCreate.Method = "POST";
 
 		using (var writer = new StreamWriter(requestCreate.GetRequestStream()))
