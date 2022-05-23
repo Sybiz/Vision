@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System.Text;
 using System.Net;
 using System.IO;
 
@@ -10,7 +11,7 @@ public static class ExampleBearerToken
 		var jsonToken = $"grant_type=password&database={CONFIG.DATABASE}&username={CONFIG.USERNAME}&password={CONFIG.PASSWORD}&keys={CONFIG.KEYS}";
 		var requestBearer = (HttpWebRequest)WebRequest.Create($"{CONFIG.ADDRESS}/API/Bearer");
 		requestBearer.ContentType = "application/x-www-form-urlencoded";
-		requestBearer.ContentLength = jsonToken.Length;
+		requestBearer.ContentLength = Encoding.UTF8.GetBytes(jsonToken).Length;
 		requestBearer.Timeout = 10000;
 		requestBearer.Method = "POST";
 
