@@ -10,7 +10,7 @@
             'Iterate through each of the case files
             For Each storeCaseFile As Sybiz.Vision.Platform.ContactManagement.CaseFileStore In transaction.CaseFiles
                 'Get the case file object from the case file store object
-                Dim objectCaseFile As Sybiz.Vision.Platform.ContactManagement.Transaction.CaseFile = Sybiz.Vision.Platform.ContactManagement.Transaction.CaseFile.GetObject(storeCaseFile.Id)
+                Dim objectCaseFile As Sybiz.Vision.Platform.ContactManagement.Transaction.CaseFile = Sybiz.Vision.Platform.ContactManagement.Transaction.CaseFile.GetObject(storeCaseFile.CaseFile)
                 'No need to do anything if the case file user is the current user
                 If objectCaseFile.User <> Sybiz.Vision.Platform.Security.Principal.CurrentPrincipal().UserId Then
                     'Assign the current user to the case file
