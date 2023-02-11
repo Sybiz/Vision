@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dashboard CurrencyCulture="en-AU">
+  <Title Text="Segment Analysis" />
+  <DataSources>
+    <SqlDataSource Name="DashboardDataSource" ComponentName="dashboardSqlDataSource1" DataProcessingMode="Client">
+      <Connection Name="localhost_VisionDemo_Connection" ProviderKey="MSSqlServer">
+        <Parameters>
+          <Parameter Name="server" Value="AU-DEV-JOHNPK\SQL2019" />
+          <Parameter Name="database" Value="Saturday" />
+          <Parameter Name="useIntegratedSecurity" Value="True" />
+          <Parameter Name="read only" Value="1" />
+          <Parameter Name="generateConnectionHelper" Value="false" />
+          <Parameter Name="userid" Value="" />
+          <Parameter Name="password" Value="" />
+        </Parameters>
+      </Connection>
+      <Query Type="CustomSqlQuery" Name="Segment3">
+        <Parameter Name="ID" Type="DevExpress.DataAccess.Expression">(System.Int32)(?ID)</Parameter>
+        <Sql>SELECT S.SegmentCode, S.SegmentDescription,AA.PeriodId,AA.Period,
+SUM(Movement) OVER (PARTITION BY A.Segment3, PeriodId ORDER BY A.Segment3, PeriodId) AS MTD, 
+SUM(Movement) OVER (PARTITION BY A.Segment3 ORDER BY A.Segment3, PeriodId ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS YTD
+FROM [gl].[AccountAnalytic] AA
+INNER JOIN [gl].[Account] A ON A.AccountId = AA.ObjectId
+INNER JOIN [gl].[Segment] S ON A.Segment3 = S.SegmentId
+WHERE Segment1 = A.Segment1 AND YearId = 25 AND A.Segment1 IN (SELECT Segment1 FROM [gl].[Account] WHERE AccountId = @Id)
+ORDER BY S.SegmentCode, PeriodId</Sql>
+      </Query>
+      <Query Type="CustomSqlQuery" Name="Segment2">
+        <Parameter Name="ID" Type="DevExpress.DataAccess.Expression">(System.Int32)(?ID)</Parameter>
+        <Sql>SELECT S.SegmentCode, S.SegmentDescription,AA.Period,AA.PeriodId,
+SUM(Movement) OVER (PARTITION BY A.Segment3, PeriodId ORDER BY A.Segment2, PeriodId) AS MTD, 
+SUM(Movement) OVER (PARTITION BY A.Segment3 ORDER BY A.Segment2, PeriodId ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS YTD
+FROM [gl].[AccountAnalytic] AA
+INNER JOIN [gl].[Account] A ON A.AccountId = AA.ObjectId
+INNER JOIN [gl].[Segment] S ON A.Segment2 = S.SegmentId
+WHERE Segment1 = A.Segment1 AND YearId = 25 AND A.Segment1 IN (SELECT Segment1 FROM [gl].[Account] WHERE AccountId = @Id)
+ORDER BY S.SegmentCode, PeriodId
+</Sql>
+      </Query>
+      <ResultSchema>
+        <DataSet Name="DashboardDataSource">
+          <View Name="Segment3">
+            <Field Name="SegmentCode" Type="String" />
+            <Field Name="SegmentDescription" Type="String" />
+            <Field Name="PeriodId" Type="Int32" />
+            <Field Name="Period" Type="String" />
+            <Field Name="MTD" Type="Decimal" />
+            <Field Name="YTD" Type="Decimal" />
+          </View>
+          <View Name="Segment2">
+            <Field Name="SegmentCode" Type="String" />
+            <Field Name="SegmentDescription" Type="String" />
+            <Field Name="Period" Type="String" />
+            <Field Name="PeriodId" Type="Int32" />
+            <Field Name="MTD" Type="Decimal" />
+            <Field Name="YTD" Type="Decimal" />
+          </View>
+        </DataSet>
+      </ResultSchema>
+      <ConnectionOptions CloseConnection="true" DbCommandTimeout="300" />
+    </SqlDataSource>
+  </DataSources>
+  <Parameters>
+    <Parameter Name="SystemDate" Type="System.DateTime" Value="2023-02-10T00:00:00+10:30" Description="The current system date" Visible="false" />
+    <Parameter Name="UserId" Type="System.Int32" Value="1" Visible="false" />
+    <Parameter Name="ID" Type="System.Int32" Value="1" Visible="false" />
+  </Parameters>
+  <Items>
+    <Grid ComponentName="gridDashboardItem1" Name="Segment3 " DataSource="dashboardSqlDataSource1" DataMember="Segment3">
+      <DataItems>
+        <Dimension DataMember="SegmentDescription" Name="Description" DefaultId="DataItem1" />
+        <Dimension DataMember="SegmentCode" DefaultId="DataItem2" />
+        <Measure DataMember="YTD" DefaultId="DataItem4" />
+      </DataItems>
+      <GridColumns>
+        <GridDimensionColumn Weight="86.33303731643899">
+          <Dimension DefaultId="DataItem2" />
+        </GridDimensionColumn>
+        <GridDimensionColumn Weight="82.323763137656982">
+          <Dimension DefaultId="DataItem1" />
+        </GridDimensionColumn>
+        <GridMeasureColumn Weight="88.73860182370818">
+          <Measure DefaultId="DataItem4" />
+        </GridMeasureColumn>
+      </GridColumns>
+      <GridOptions ColumnWidthMode="Manual" />
+      <ColumnFilterOptions />
+    </Grid>
+    <Grid ComponentName="gridDashboardItem2" Name="Segment 2" DataSource="dashboardSqlDataSource1" DataMember="Segment2">
+      <DataItems>
+        <Dimension DataMember="SegmentCode" DefaultId="DataItem0" />
+        <Measure DataMember="MTD" DefaultId="DataItem2" />
+        <Measure DataMember="YTD" DefaultId="DataItem3" />
+        <Dimension DataMember="Period" DefaultId="DataItem1" />
+        <Dimension DataMember="PeriodId" DefaultId="DataItem5" />
+      </DataItems>
+      <GridColumns>
+        <GridDimensionColumn>
+          <Dimension DefaultId="DataItem0" />
+        </GridDimensionColumn>
+        <GridDimensionColumn>
+          <Dimension DefaultId="DataItem5" />
+        </GridDimensionColumn>
+        <GridDimensionColumn>
+          <Dimension DefaultId="DataItem1" />
+        </GridDimensionColumn>
+        <GridMeasureColumn>
+          <Measure DefaultId="DataItem2" />
+        </GridMeasureColumn>
+        <GridMeasureColumn>
+          <Measure DefaultId="DataItem3" />
+        </GridMeasureColumn>
+      </GridColumns>
+      <GridOptions />
+      <ColumnFilterOptions />
+    </Grid>
+    <Chart ComponentName="chartDashboardItem2" Name="Chart 2" ShowCaption="false" DataSource="dashboardSqlDataSource1" DataMember="Segment3">
+      <DataItems>
+        <Measure DataMember="MTD" DefaultId="DataItem0" />
+        <Measure DataMember="YTD" DefaultId="DataItem1" />
+        <Dimension DataMember="PeriodId" DefaultId="DataItem2" />
+        <Dimension DataMember="Period" DefaultId="DataItem3" />
+      </DataItems>
+      <Arguments>
+        <Argument DefaultId="DataItem2" />
+        <Argument DefaultId="DataItem3" />
+      </Arguments>
+      <Panes>
+        <Pane Name="Pane 1">
+          <Series>
+            <Simple>
+              <Value DefaultId="DataItem0" />
+            </Simple>
+            <Simple>
+              <Value DefaultId="DataItem1" />
+            </Simple>
+          </Series>
+        </Pane>
+      </Panes>
+    </Chart>
+    <Pie ComponentName="pieDashboardItem1" Name="Pies 1" ShowCaption="false" DataSource="dashboardSqlDataSource1" DataMember="Segment2">
+      <DataItems>
+        <Measure DataMember="YTD" DefaultId="DataItem1" />
+        <Dimension DataMember="Period" DefaultId="DataItem0" />
+        <Dimension DataMember="SegmentCode" DefaultId="DataItem3" />
+      </DataItems>
+      <SeriesDimensions>
+        <SeriesDimension DefaultId="DataItem3" />
+      </SeriesDimensions>
+      <Arguments>
+        <Argument DefaultId="DataItem0" />
+      </Arguments>
+      <Values>
+        <Value DefaultId="DataItem1" />
+      </Values>
+    </Pie>
+  </Items>
+  <LayoutTree>
+    <LayoutGroup Orientation="Vertical" Weight="100">
+      <LayoutGroup Weight="52.642276422764226">
+        <LayoutItem DashboardItem="gridDashboardItem2" Weight="50" />
+        <LayoutItem DashboardItem="pieDashboardItem1" Weight="50" />
+      </LayoutGroup>
+      <LayoutGroup Weight="47.357723577235774">
+        <LayoutItem DashboardItem="gridDashboardItem1" Weight="50" />
+        <LayoutItem DashboardItem="chartDashboardItem2" Weight="50" />
+      </LayoutGroup>
+    </LayoutGroup>
+  </LayoutTree>
+</Dashboard>
