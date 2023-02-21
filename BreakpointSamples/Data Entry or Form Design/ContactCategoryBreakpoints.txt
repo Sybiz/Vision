@@ -1,0 +1,300 @@
+Imports Sybiz.Vision.Platform.Admin.Breakpoints
+Imports Sybiz.Vision.WinUI.Properties
+
+Namespace Breakpoints.Debtors.Customer 'Do not remove - SYBIZ
+	Public Module CustomerCustomRibbonButtonRegister 'Do not remove - SYBIZ
+		Public Sub Invoke(ByVal sender As System.Object, ByVal e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCustomRibbonButtonRegisterEventArgs) 'Do not remove - SYBIZ
+			Try 'Do not remove - SYBIZ
+				'Enter your code below - SYBIZ
+				
+				If Sybiz.Vision.Platform.Debtors.Customer.CanEdit() Then
+					e.Register.RegisterCustomRibbonButton("CONTACTCATEGORY", "Contact Extension", CustomRibbonButtonStyle.Default, "Sets Contact Categories", "Sets a category against each contact where required.", Resources.Contact16, Resources.Contact32, False, 0)
+				End If
+				
+			Catch ex As System.Exception 'Do not remove - SYBIZ
+				Throw New Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointException("Invalid breakpoint code error", ex) 'Do not remove - SYBIZ
+			Finally 'Do not remove - SYBIZ
+			End Try 'Do not remove - SYBIZ
+		End Sub 'Do not remove - SYBIZ
+	End Module 'Do not remove - SYBIZ
+End Namespace 'Do not remove - SYBIZ
+
+
+
+
+
+Imports DevExpress.XtraEditors
+Imports Sybiz.Vision.Platform.Debtors
+Imports Sybiz.Vision.Platform.Core
+Imports Sybiz.Vision.Platform.Validation
+Imports Sybiz.Vision.Platform.Commands
+Imports System.Transactions
+
+Namespace Breakpoints.Debtors.Customer 'Do not remove - SYBIZ
+	Public Module CustomerCustomRibbonButtonClick 'Do not remove - SYBIZ
+		Public Sub Invoke(ByVal customer As Sybiz.Vision.Platform.Debtors.Customer, ByVal e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCustomRibbonButtonClickEventArgs) 'Do not remove - SYBIZ
+			Try 'Do not remove - SYBIZ
+				'Enter your code below - SYBIZ
+				
+				If e.Key = "CONTACTCATEGORY" AndAlso customer.IsNew = False Then
+					Using frm As New ContactExtension.ContactCategoryForm()
+				      frm.SetDataSource(customer.Id)
+				      frm.ShowDialog(e.Form)
+				    End Using
+				End If
+				
+			Catch ex As System.Exception 'Do not remove - SYBIZ
+				Throw New Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointException("Invalid breakpoint code error", ex) 'Do not remove - SYBIZ
+			Finally 'Do not remove - SYBIZ
+			End Try 'Do not remove - SYBIZ
+		End Sub 'Do not remove - SYBIZ
+	End Module 'Do not remove - SYBIZ
+End Namespace 'Do not remove - SYBIZ
+
+
+
+Namespace ContactExtension
+	<Serializable()>
+	Public Class ContactCategoryList
+		Inherits Csla.BusinessListBase(Of ContactCategoryList, ContactCategory)
+
+		Private Sub New()
+		End Sub
+		Friend Shared Function GetList(customerId As Integer) As ContactCategoryList
+			Return Csla.DataPortal.Fetch(Of ContactCategoryList)(New Csla.SingleCriteria(Of ContactCategoryList, Integer)(customerId))
+		End Function
+
+		Private Overloads Sub DataPortal_Fetch(criteria As Csla.SingleCriteria(Of ContactCategoryList, Integer))
+			RaiseListChangedEvents = False
+			Using cn = Sybiz.Vision.Platform.Core.Data.ConnectionManager.GetCompanyManager()
+				Using cm = cn.Connection.CreateCommand()
+					cm.CommandType = System.Data.CommandType.Text
+
+					cm.CommandText = "SELECT C.ContactId, C.Salutation, C.FirstName, C.LastName, M.Category FROM [dr].[Contact] C LEFT OUTER JOIN [example].[ContactCategory] M ON C.ContactId = M.ContactId WHERE C.[CustomerId] = @CustomerId"
+					cm.Parameters.AddWithValue("@CustomerId", criteria.Value)
+
+					Using edr = New Sybiz.Vision.Platform.Core.Data.ExtendedSafeDataReader(cm.ExecuteReader())
+						While edr.Read()
+							Add(ContactCategory.GetObject(edr))
+						End While
+					End Using
+				End Using
+			End Using
+			RaiseListChangedEvents = True
+		End Sub
+
+		<Csla.Transactional(Csla.TransactionalTypes.TransactionScope)>
+		Protected Overrides Sub DataPortal_Update()
+			Using cn = Sybiz.Vision.Platform.Core.Data.ConnectionManager.GetCompanyManager()
+				MyBase.Child_Update()
+			End Using
+		End Sub
+		
+		Public Overrides Function Save() As ContactCategoryList
+			Try
+				Return MyBase.Save()
+			Catch ex As System.Runtime.Serialization.SerializationException
+				DoTransactionalInsertUpdate()
+			End Try
+			Return Me
+		End Function
+
+		Private Sub DoTransactionalInsertUpdate()
+			'Using scope = New TransactionScope(TransactionScopeOption.Required, New TransactionOptions() With {.IsolationLevel = System.Data.IsolationLevel.ReadCommitted})
+				DataPortal_Update()
+				'scope.Complete()
+			'End Using
+		End Sub
+
+	End Class
+	
+	<Serializable()>
+	Public Class ContactCategory
+		Inherits Csla.BusinessBase(Of ContactCategory)
+
+		Private Shared _IdProperty As Csla.PropertyInfo(Of Integer) = RegisterProperty(Of Integer)(New Csla.PropertyInfo(Of Integer)("Id"))
+		Public ReadOnly Property Id As Integer
+			Get
+				Return GetProperty(_IdProperty)
+			End Get
+		End Property
+
+		Private Shared _FullNameProperty As Csla.PropertyInfo(Of String) = RegisterProperty(Of String)(New Csla.PropertyInfo(Of String)("FullName"))
+		Public ReadOnly Property FullName As String
+			Get
+				Return GetProperty(Of String)(_FullNameProperty)
+			End Get
+		End Property
+
+		Private Shared _CategoryProperty As Csla.PropertyInfo(Of String) = RegisterProperty(Of String)(New Csla.PropertyInfo(Of String)("Category"))
+		Public Property Category As String
+			Get
+				Return GetProperty(Of String)(_CategoryProperty)
+			End Get
+			Set(ByVal value As String)
+				SetProperty(Of String)(_CategoryProperty, value)
+			End Set
+		End Property
+
+		Private Sub New()
+			DisableIEditableObject = True
+		End Sub
+
+		Friend Shared Function GetObject(edr As Sybiz.Vision.Platform.Core.Data.ExtendedSafeDataReader) As ContactCategory
+			Return Csla.DataPortal.FetchChild(Of ContactCategory)(edr)
+		End Function
+
+		Private Sub Child_Fetch(edr As Sybiz.Vision.Platform.Core.Data.ExtendedSafeDataReader)
+			LoadProperty(_IdProperty, edr.GetInteger("ContactId"))
+			LoadProperty(_FullNameProperty, String.Format("{0} {1} {2}", edr.GetString("Salutation"), edr.GetString("FirstName"), edr.GetString("LastName")))
+			LoadProperty(_CategoryProperty, edr.GetString("Category"))
+		End Sub
+
+		Private Sub Child_Insert()
+			DoInsertUpdate()
+		End Sub
+
+		Private Sub Child_Update()
+			DoInsertUpdate()
+		End Sub
+
+		Private Sub DoInsertUpdate()
+			Using cn = Sybiz.Vision.Platform.Core.Data.ConnectionManager.GetCompanyManager()
+				Using cm = cn.Connection.CreateCommand()
+					cm.CommandType = System.Data.CommandType.StoredProcedure
+					cm.CommandText = "[example].[mergeContactCategory]"
+					cm.Parameters.AddWithValue("@ContactId", Id)
+					cm.Parameters.AddWithValue("@Category", Category)
+					cm.ExecuteNonQuery()
+				End Using
+			End Using
+		End Sub
+
+	End Class
+	
+	Public NotInheritable Class ContactCategoryForm
+	  Inherits Sybiz.Vision.WinUI.Base.SimpleDialog
+
+	  Public Sub New()
+	    InitializeComponent()
+	  End Sub
+
+	  Protected Overrides Sub AfterLoad()
+	    MyBase.AfterLoad()
+	    Text = TitleField
+	  End Sub
+
+	  Public Sub SetDataSource(ByVal customerId As Integer)
+	    ObjectSource.DataSource = ContactCategoryList.GetList(customerId)
+	    TitleField = "Contact Categories"
+	  End Sub
+
+	  Protected Overrides Sub OnOKClick()
+	    EndEdit()
+	    Dim obj = GetBusinessObject(Of ContactCategoryList)()
+	    obj.Save()
+	    If Me.Modal = False AndAlso Me.DialogResult = System.Windows.Forms.DialogResult.OK Then
+	      Close()
+	    End If
+	  End Sub
+
+	  'Required by the Windows Form Designer
+	  Private components As System.ComponentModel.IContainer
+	  Private WithEvents MainGridControl As Sybiz.Vision.WinUI.VisionGridControl
+	  Friend WithEvents colId As DevExpress.XtraGrid.Columns.GridColumn
+	  Friend WithEvents colFullName As DevExpress.XtraGrid.Columns.GridColumn
+	  Friend WithEvents colCategory As DevExpress.XtraGrid.Columns.GridColumn
+	  Friend WithEvents riCategories As DevExpress.XtraEditors.Repository.RepositoryItemComboBox
+	  Private WithEvents MainGridView As Sybiz.Vision.WinUI.VisionGridView
+
+	  'NOTE: The following procedure is required by the Windows Form Designer
+	  'It can be modified using the Windows Form Designer.  
+	  'Do not modify it using the code editor.
+	  <System.Diagnostics.DebuggerStepThrough()>
+	  Private Sub InitializeComponent()
+	    Me.MainGridControl = New Sybiz.Vision.WinUI.VisionGridControl()
+	    Me.MainGridView = New Sybiz.Vision.WinUI.VisionGridView()
+	    Me.colId = New DevExpress.XtraGrid.Columns.GridColumn()
+	    Me.colFullName = New DevExpress.XtraGrid.Columns.GridColumn()
+	    Me.colCategory = New DevExpress.XtraGrid.Columns.GridColumn()
+	    Me.riCategories = New DevExpress.XtraEditors.Repository.RepositoryItemComboBox()
+	    CType(Me.ObjectSource, System.ComponentModel.ISupportInitialize).BeginInit()
+	    CType(Me.MainGridControl, System.ComponentModel.ISupportInitialize).BeginInit()
+	    CType(Me.MainGridView, System.ComponentModel.ISupportInitialize).BeginInit()
+	    CType(Me.riCategories, System.ComponentModel.ISupportInitialize).BeginInit()
+	    Me.SuspendLayout()
+	    '
+	    'ObjectSource
+	    '
+	    Me.ObjectSource.DataSource = GetType(ContactCategoryList)
+	    '
+	    'MainGridControl
+	    '
+	    Me.MainGridControl.DataSource = Me.ObjectSource
+	    Me.MainGridControl.Dock = System.Windows.Forms.DockStyle.Fill
+	    Me.MainGridControl.Location = New System.Drawing.Point(0, 0)
+	    Me.MainGridControl.MainView = Me.MainGridView
+	    Me.MainGridControl.Name = "MainGridControl"
+	    Me.MainGridControl.RepositoryItems.AddRange(New DevExpress.XtraEditors.Repository.RepositoryItem() {Me.riCategories})
+	    Me.MainGridControl.Size = New System.Drawing.Size(526, 173)
+	    Me.MainGridControl.TabIndex = 3
+	    Me.MainGridControl.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.MainGridView})
+	    '
+	    'MainGridView
+	    '
+	    Me.MainGridView.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.colId, Me.colFullName, Me.colCategory})
+	    Me.MainGridView.EmptyRowDisplayText = Nothing
+	    Me.MainGridView.GridControl = Me.MainGridControl
+	    Me.MainGridView.Name = "MainGridView"
+	    Me.MainGridView.OptionsView.ShowGroupPanel = False
+	    Me.MainGridView.OptionsView.ShowIndicator = False
+	    '
+	    'colId
+	    '
+	    Me.colId.FieldName = "Id"
+	    Me.colId.Name = "colId"
+	    Me.colId.OptionsColumn.ReadOnly = True
+	    '
+	    'colFullName
+	    '
+	    Me.colFullName.FieldName = "FullName"
+	    Me.colFullName.Name = "colFullName"
+	    Me.colFullName.OptionsColumn.ReadOnly = True
+	    Me.colFullName.Visible = True
+	    Me.colFullName.VisibleIndex = 0
+	    '
+	    'colCategory
+	    '
+	    Me.colCategory.ColumnEdit = Me.riCategories
+	    Me.colCategory.FieldName = "Category"
+	    Me.colCategory.Name = "colCategory"
+	    Me.colCategory.Visible = True
+	    Me.colCategory.VisibleIndex = 1
+	    '
+	    'riCategories
+	    '
+	    Me.riCategories.AutoHeight = False
+	    Me.riCategories.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+	    Me.riCategories.Items.AddRange(New Object() {"", "Private", "Communications", "Principal", "Internal", "Public"})
+	    Me.riCategories.Name = "riCategories"
+	    Me.riCategories.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor
+	    '
+	    'ContactCategoryForm
+	    '
+	    Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+	    Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+	    Me.ClientSize = New System.Drawing.Size(526, 209)
+	    Me.Controls.Add(Me.MainGridControl)
+	    Me.Name = "ContactCategoryForm"
+	    Me.Text = "Form1"
+	    Me.Controls.SetChildIndex(Me.MainGridControl, 0)
+	    CType(Me.ObjectSource, System.ComponentModel.ISupportInitialize).EndInit()
+	    CType(Me.MainGridControl, System.ComponentModel.ISupportInitialize).EndInit()
+	    CType(Me.MainGridView, System.ComponentModel.ISupportInitialize).EndInit()
+	    CType(Me.riCategories, System.ComponentModel.ISupportInitialize).EndInit()
+	    Me.ResumeLayout(False)
+
+	  End Sub
+
+	End Class
+End Namespace

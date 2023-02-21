@@ -1,0 +1,2 @@
+The SQL files are required to create the underlying database structures and stored procedures required by the breakpoint code
+The breakpoint files include a number of import statements which must be added to allow the code to work
