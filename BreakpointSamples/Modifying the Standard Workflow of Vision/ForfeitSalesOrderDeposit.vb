@@ -1,0 +1,66 @@
+Imports System 'Do not remove - SYBIZ
+Imports System.Collections.Generic 'Do not remove - SYBIZ
+Imports System.Data 'Do not remove - SYBIZ
+Imports System.Data.SqlClient 'Do not remove - SYBIZ
+Imports System.Drawing 'Do not remove - SYBIZ
+Imports System.Drawing.Imaging 'Do not remove - SYBIZ
+Imports System.IO 'Do not remove - SYBIZ
+Imports System.Linq 'Do not remove - SYBIZ
+Imports System.Windows.Forms 'Do not remove - SYBIZ
+Imports Sybiz.Vision.Module.Coordinator 'Do not remove - SYBIZ
+Imports Sybiz.Vision.Platform.Core.Enumerations 'Do not remove - SYBIZ
+Imports Sybiz.Vision.Platform.Security 'Do not remove - SYBIZ
+Imports Sybiz.Vision.WinUI.Utilities 'Do not remove - SYBIZ
+Namespace Breakpoints.Debtors.SalesOrder 'Do not remove - SYBIZ
+	Public Module SalesOrderCustomRibbonButtonClick 'Do not remove - SYBIZ
+		Public Sub Invoke(ByVal transaction As Sybiz.Vision.Platform.Debtors.Transaction.SalesOrder, ByVal e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCustomRibbonButtonClickEventArgs) 'Do not remove - SYBIZ
+			Try 'Do not remove - SYBIZ
+				'Enter your code below - SYBIZ
+				If e.Key = "ClearDeposit" Then 
+					If BreakpointHelpers.ShowYesNoMessageBox(e.Form, "WARNING", "Warning: This will cleanse this Sales Order and prepare an invoice for pay and process. Do you want to continue?") = DialogResult.Yes Then 
+						Dim soid = transaction.Id 
+						Dim depamount As Decimal 
+						
+						transaction.CleanseLines() 
+						
+						For each dp AS Sybiz.Vision.Platform.Debtors.Transaction.SalesOrderLine In transaction.Lines 
+							If dp.AccountType = SalesLineType.DP Then 
+								depamount = depAmount + (dp.QuantityOrder - dp.QuantityNetDelivered)
+							End If 
+						Next 
+						
+					'Need to be in Inclusive mode to be able to set UnitChargeInclusive appropriately 
+					BreakpointHelpers.PerformRibbonButtonClick(e.Form,"Inclusive") 
+					
+					'This example has been written assuming a specific "Deposits Forfeited" account. This could be easily changed to utilise a different logic of where the forfeited deposit amount is placed. 
+					Dim glline As Sybiz.Vision.Platform.Debtors.Transaction.GLSalesOrderLine = transaction.Lines.AddNew(SalesLineType.GL) 
+					glline.Account = 2933 
+					glline.QuantityOrder = 1 
+					glline.UnitChargeInclusive = depamount 
+					glline.TaxCode = 6 'GST Applies, please note that this treatment may not be accurate for all scenarios, advice should be sought 
+					
+					If transaction.IsProcessable then 
+						BreakpointHelpers.PerformRibbonButtonClick(e.Form,"Process & Close") 
+					Else if (transaction.IsValid) then 
+						For Each errorline As Sybiz.Vision.Platform.Debtors.Transaction.SalesOrderLine In transaction.Lines 
+							For Each jerr As Sybiz.Vision.Platform.Validation.BrokenRuleInfo In errorline.GetBrokenRuleInfo 
+								BreakpointHelpers.ShowErrorMessage(e.Form, "ERROR!", string.Format(jerr.Description)) 
+								Return
+							Next 
+						Next 
+					End If 
+					
+					Dim inv As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoice = Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoice.NewObject(Nothing, Nothing, Nothing) 
+					inv.AddSourceDocument(soid, TransactionType.SalesOrder) 
+					inv.InvoiceAndDeliverAll() 
+					Sybiz.Vision.Module.Coordinator.VisionApplication.GetApplication.DR.ShowSalesInvoiceForm(Nothing, inv, False) 
+					
+					End If 
+				End If				
+			Catch ex As System.Exception 'Do not remove - SYBIZ
+				Throw New Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointException("Invalid breakpoint code error", ex) 'Do not remove - SYBIZ
+			Finally 'Do not remove - SYBIZ
+			End Try 'Do not remove - SYBIZ
+		End Sub 'Do not remove - SYBIZ
+	End Module 'Do not remove - SYBIZ
+End Namespace 'Do not remove - SYBIZ
