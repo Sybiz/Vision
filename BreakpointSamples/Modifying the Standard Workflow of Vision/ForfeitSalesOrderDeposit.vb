@@ -41,12 +41,12 @@ Namespace Breakpoints.Debtors.SalesOrder 'Do not remove - SYBIZ
 					
 					If transaction.IsProcessable then 
 						BreakpointHelpers.PerformRibbonButtonClick(e.Form,"Process & Close") 
-					Else if (transaction.IsValid) then 
-						For Each errorline As Sybiz.Vision.Platform.Debtors.Transaction.SalesOrderLine In transaction.Lines 
-							For Each jerr As Sybiz.Vision.Platform.Validation.BrokenRuleInfo In errorline.GetBrokenRuleInfo 
-								BreakpointHelpers.ShowErrorMessage(e.Form, "ERROR!", string.Format(jerr.Description)) 
+					Else						
+						For Each brokenRule as Sybiz.Vision.Platform.Validation.BrokenRuleInfo In transaction.GetBrokenRuleInfo()
+							If (brokenRule.Severity = Csla.Validation.RuleSeverity.Error) Then
+								BreakpointHelpers.ShowErrorMessage(e.Form, brokenRule.PropertyName, brokenRule.Description)
 								Return
-							Next 
+							End If
 						Next 
 					End If 
 					
