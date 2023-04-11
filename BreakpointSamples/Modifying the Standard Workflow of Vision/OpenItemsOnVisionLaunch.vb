@@ -9,9 +9,12 @@ Public Class OpenItemsonVisionLaunch
 
 			If Sybiz.Vision.Platform.Security.Principal.CurrentPrincipal.IsInRole("POS") = True Then
 					
-				'Since it's POS; is it possible to 'force' KioskMode on? This seems like the way to do it, but does not work (due to Object Reference not Set...); guessing it's intentional but can't hurt to ask!
-				Dim ds As Sybiz.Vision.Platform.Admin.DeviceSettings
-				ds.KioskMode = true
+				'Since scenario	is a POS environment, we are 'forcing' Kiosk mode on through this breakpoint.				
+				If (Sybiz.Vision.Platform.Admin.DeviceSettings.CanAccess()) Then
+					Dim ds As Sybiz.Vision.Platform.Admin.DeviceSettings = Sybiz.Vision.Platform.Admin.DeviceSettings.GetObject()
+					ds.KioskMode = true
+					ds.Save()
+				End If
 								
 				BreakpointHelpers.PerformRibbonButtonClick(e.Form, "Sales Invoice")
 			Else
