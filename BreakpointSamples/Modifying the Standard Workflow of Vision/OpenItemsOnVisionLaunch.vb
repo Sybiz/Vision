@@ -13,7 +13,7 @@ Public Class OpenItemsonVisionLaunch
 				If (Sybiz.Vision.Platform.Admin.DeviceSettings.CanAccess()) Then
 					Dim ds As Sybiz.Vision.Platform.Admin.DeviceSettings = Sybiz.Vision.Platform.Admin.DeviceSettings.GetObject()
 					ds.KioskMode = true
-					ds.Save()
+					ds = ds.Save()
 				End If
 								
 				BreakpointHelpers.PerformRibbonButtonClick(e.Form, "Sales Invoice")
