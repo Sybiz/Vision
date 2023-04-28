@@ -8,7 +8,7 @@ Public Class RunScheduledReportsOnLaunch
 		Public Sub Invoke(ByVal e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointEventArgs) 'Do not remove - SYBIZ
 
 			If BreakpointHelpers.CanRunScheduledReports = True Then
-					BreakpointHelpers.RunScheduledReports()
+				BreakpointHelpers.RunScheduledReports()
 			End If
 				
 		End Sub
