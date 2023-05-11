@@ -50,9 +50,14 @@ Public Module ExternalApplicationCustomRibbonButtonClick
 			Finally
 				System.Windows.Forms.Application.UseWaitCursor = false
 				errorlog = Array.FindAll(errorlog, Function(s) Not String.IsNullOrEmpty(s))
-				For Each err As String In errorlog
-					BreakpointHelpers.ShowErrorMessage(e.Form,"ERROR",err)
-				Next
+				If errorlog.Length > 0 Then
+					Dim errcont As DialogResult = BreakpointHelpers.ShowYesNoMessageBox(e.Form,"ERRORS","During the operation, " + errorlog.Length + " errors were recorded. Press yes to see detail about each, or no to skip this.")
+					If errcont = DialogResult.Yes Then
+						For Each err As String In errorlog
+							BreakpointHelpers.ShowErrorMessage(e.Form,"ERROR",err)
+						Next
+					End If
+				End If
 				BreakpointHelpers.ShowInformationMessage(e.Form,"COMPLETE!","The operation has been completed")
 			End Try
 		End If
