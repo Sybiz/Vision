@@ -40,7 +40,10 @@
                 Next
             Next
 
-            BreakpointHelpers.SendEmail(emailTo,Nothing,Nothing,String.Format("Sales Invoice: {0}",transaction.TransactionNumber),Nothing,filenames,attachments)			
+            Dim subject As String = String.Empty
+            Dim body As String = String.Empty
+            Sybiz.Vision.WinUI.Utilities.FormFunctions.GetEmailSubjectAndBody(transaction, subject, body)
+            BreakpointHelpers.SendEmail(emailTo,Nothing,Nothing,subject,body,filenames,attachments)				
 
         End If
     End Sub
