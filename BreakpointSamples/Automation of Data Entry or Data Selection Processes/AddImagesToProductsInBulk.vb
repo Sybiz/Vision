@@ -45,7 +45,7 @@ Public Module ExternalApplicationCustomRibbonButtonClick
 		Finally
 			System.Windows.Forms.Application.UseWaitCursor = false
 			If errorlog.Count > 0 Then
-				BreakpointHelpers.ShowErrorMessage(e.Form,"ERRORS", String.Format("During the operation,{0} errors were recorded in VisionPictureImportErrors.txt", errorLog.Count))
+				BreakpointHelpers.ShowErrorMessage(e.Form,"ERRORS", String.Format("During the operation,{0} errors were recorded in VisionPictureImportErrors.txt, saved to My Documents", errorLog.Count))
 				System.IO.File.WriteAllLines(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),"VisionPictureImportErrors.txt"),errorlog, System.Text.Encoding.ASCII)
 			End If
 			BreakpointHelpers.ShowInformationMessage(e.Form,"COMPLETE!","The operation has been completed")
