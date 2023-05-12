@@ -21,8 +21,8 @@ Public Class AutomateServiceRequestCreationBasedOnCounter
           sr.RequestTemplate = rt
           Try
             If sr.IsSavable = true Then
-              sr.Save
-              BreakpointHelpers.ShowInformationMessage(e.Form,"SR Created",String.Format("Service Request created for {1} hour service for {2}",readbreak,l.ServiceItemDetails.Description))
+              sr = sr.Save
+              BreakpointHelpers.ShowInformationMessage(e.Form,"SR Created",String.Format("Service Request {0} created for {1} hour service for {2}",sr.ServiceRequestNumber,readbreak,l.ServiceItemDetails.Description))
               End If
           Catch ex As Exception
             BreakpointHelpers.ShowErrorMessage(e.Form,"ERROR",ex.Message)
