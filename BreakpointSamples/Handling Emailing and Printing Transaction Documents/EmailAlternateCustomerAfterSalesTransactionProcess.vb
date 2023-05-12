@@ -8,17 +8,40 @@
         'Determine if there is a difference in the order, delivery and invoice customers
         If transaction.OrderCustomer <> transaction.DeliveryCustomer OrElse transaction.DeliveryCustomer <> transaction.InvoiceCustomer Then
             'Stores the value of the alternate customer
-            Dim alternateAccount As Integer = 0
+            Dim aaid As Integer = 0
 
             'Check if it is the order or the delivery that is different
             If transaction.OrderCustomer <> transaction.InvoiceCustomer Then
-                alternateAccount = transaction.OrderCustomer
+                aaid = transaction.OrderCustomer
             Else
-                alternateAccount = transaction.DeliveryCustomer
+                aaid = transaction.DeliveryCustomer
             End If
 
-            'See above for explanation of parameters
-            Sybiz.Vision.Platform.Core.Transaction.TransactionDocumentEngine.ProduceTransactionDocument(transaction, True, True, AddressOf Sybiz.Vision.WinUI.Utilities.FormFunctions.PrintTransaction, AddressOf Sybiz.Vision.WinUI.Utilities.FormFunctions.PreviewTransaction, AddressOf Sybiz.Vision.WinUI.Utilities.FormFunctions.ExportTransaction, AddressOf Sybiz.Vision.WinUI.Utilities.FormFunctions.EmailTransaction, AddressOf Sybiz.Vision.WinUI.Utilities.FormFunctions.EmailPreviewTransaction, AlternateAccountId:=alternateAccount)
+            Dim transactiondocuments As List(Of Byte()) = BreakpointHelpers.CreateTransactionDocuments(TransactionType.SalesInvoice,transaction.Id)
+
+            Dim attachments As New List(Of Byte())
+            Dim filenames As New List(Of String)
+            Dim templatecount As Integer = 1
+
+            For Each template As Byte() In transactiondocuments
+                attachments.Add(template)
+                filenames.Add(transaction.TransactionNumber & " " & templatecount & ".pdf")
+                templatecount += 1
+            Next
+
+            Dim altaccount As Sybiz.Vision.Platform.Debtors.Customer = Sybiz.Vision.Platform.Debtors.Customer.GetObject(aaid)
+            Dim emailTo As String
+
+            For Each contact As Sybiz.Vision.Platform.Common.Contact In altaccount.Contacts 
+                For each doc As Sybiz.Vision.Platform.Common.ContactTransactionDocumentOption In contact.TransactionDocuments
+                    If doc.TransactionTypeId = 103 Then
+                        emailTo = emailTo + contact.Email + ";"
+                    End If
+                Next
+            Next
+
+            BreakpointHelpers.SendEmail(emailTo,Nothing,Nothing,String.Format("Sales Invoice: {0}",transaction.TransactionNumber),Nothing,filenames,attachments)			
+
         End If
     End Sub
 
