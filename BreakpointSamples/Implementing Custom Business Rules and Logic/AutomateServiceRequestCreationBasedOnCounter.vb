@@ -11,7 +11,7 @@ Public Class AutomateServiceRequestCreationBasedOnCounter
         Dim lastread As Integer = BreakpointHelpers.ExecuteScalarCommand(CommandType.Text,"SELECT LastReadingInterval FROM sv.ServiceItemExtendedProperty WHERE ObjectId = @Id",param)
         Dim interval As Integer = BreakpointHelpers.ExecuteScalarCommand(CommandType.Text,"SELECT ReadingInterval FROM sv.ServiceItemExtendedProperty WHERE ObjectId = @Id",param)
         Dim readbreak As Integer = lastread + interval
-        If l.Reading > readbreak Then
+        If l.Reading >= readbreak Then
 
           Dim sr As Sybiz.Vision.Platform.Service.ServiceRequest = Sybiz.Vision.Platform.Service.ServiceRequest.GetObject(0)
           sr.Description = String.Format("Regular Counter Service For {0}",l.ServiceItemDetails.Description)
@@ -22,7 +22,7 @@ Public Class AutomateServiceRequestCreationBasedOnCounter
           Try
             If sr.IsSavable = true Then
               sr.Save
-              BreakpointHelpers.ShowInformationMessage(e.Form,"SR Created",String.Format("Service Request {0} created for {1} hour service for {2}",sr.ServiceRequestNumber,readbreak,l.ServiceItemDetails.Description))
+              BreakpointHelpers.ShowInformationMessage(e.Form,"SR Created",String.Format("Service Request created for {1} hour service for {2}",readbreak,l.ServiceItemDetails.Description))
               End If
           Catch ex As Exception
             BreakpointHelpers.ShowErrorMessage(e.Form,"ERROR",ex.Message)
