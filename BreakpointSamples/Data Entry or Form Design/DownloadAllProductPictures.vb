@@ -1,7 +1,7 @@
 Public Module ExternalApplicationCustomRibbonButtonClick 
 
   'Scenario: Downloads all pictures attached to products
-  'Prerequisities: External application button must be created using code "PicDownload"
+  'Prerequisities: External application button must be created using code "PicDownload". Also must import System.Text.RegularExpressions
   'Breakpoint: ExternalApplicationCustomRibbonButtonClick
 
   Public Sub Invoke(ByVal e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCustomRibbonButtonClickEventArgs)				
