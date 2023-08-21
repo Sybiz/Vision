@@ -1,0 +1,31 @@
+Imports System 'Do not remove - SYBIZ
+Imports System.Collections.Generic 'Do not remove - SYBIZ
+Imports System.Data 'Do not remove - SYBIZ
+Imports System.Data.SqlClient 'Do not remove - SYBIZ
+Imports System.Drawing 'Do not remove - SYBIZ
+Imports System.Drawing.Imaging 'Do not remove - SYBIZ
+Imports System.IO 'Do not remove - SYBIZ
+Imports System.Linq 'Do not remove - SYBIZ
+Imports System.Windows.Forms 'Do not remove - SYBIZ
+Imports Sybiz.Vision.Module.Coordinator 'Do not remove - SYBIZ
+Imports Sybiz.Vision.Platform.Core.Enumerations 'Do not remove - SYBIZ
+Imports Sybiz.Vision.Platform.Security 'Do not remove - SYBIZ
+Imports Sybiz.Vision.WinUI.Utilities 'Do not remove - SYBIZ
+Namespace Breakpoints.Debtors.SalesInvoice 'Do not remove - SYBIZ
+	Public Module BeforeSalesInvoiceProcess 'Do not remove - SYBIZ
+		Public Sub Invoke(ByVal transaction As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoice, ByVal e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCancelEventArgs) 'Do not remove - SYBIZ
+			Try 'Do not remove - SYBIZ
+				'Enter your code below - SYBIZ
+				
+				If transaction.Lines.Any(Function(ln) ln.QuantityDeliver = 0D)
+					e.Cancel = true	
+					BreakpointHelpers.ShowInformationMessage(e.Form,"Business Logic Invalidated","Unable to process as no delivered quantity entered")
+				end if
+								
+			Catch ex As System.Exception 'Do not remove - SYBIZ
+				Throw New Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointException("Invalid breakpoint code error", ex) 'Do not remove - SYBIZ
+			Finally 'Do not remove - SYBIZ
+			End Try 'Do not remove - SYBIZ
+		End Sub 'Do not remove - SYBIZ
+	End Module 'Do not remove - SYBIZ
+End Namespace 'Do not remove - SYBIZ
