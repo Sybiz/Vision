@@ -10,9 +10,9 @@
     If e.FieldName = "Account" Then
       Dim cx As Sybiz.Vision.Platform.Debtors.CustomerDetailInfo = Sybiz.Vision.Platform.Debtors.CustomerDetailInfo.GetObject(transaction.Customer)
       Dim p As Sybiz.Vision.Platform.Inventory.ProductDetailInfo = Sybiz.Vision.Platform.Inventory.ProductDetailInfo.GetObject(e.Line.Account)
-      If p.ProductPrices.Any(Function(x) x.GetType().GetProperty("Id").Getvalue(x).Equals(cx.PriceScale)) = False Then
+      If p.ProductPrices.Any(Function(x) x.Id = cx.PriceScale) = False Then
         Try
-          Dim highprice As Sybiz.Vision.Platform.Inventory.ProductPriceDetailInfo = p.ProductPrices.OrderByDescending(Function(x) x.GetType().GetProperty("Price").GetValue(x)).FirstOrDefault()
+          Dim highprice As Sybiz.Vision.Platform.Inventory.ProductPriceDetailInfo = p.ProductPrices.OrderByDescending(Function(x) x.Price).FirstOrDefault()
           e.Line.UnitChargeExclusive = highprice.Price
         Catch ex As Exception
           If p.ProductPrices.Count = 0 Then
