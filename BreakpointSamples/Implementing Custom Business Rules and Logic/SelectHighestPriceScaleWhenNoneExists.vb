@@ -12,14 +12,18 @@ Public Class SelectHighestPriceScaleWhenNoneExists
     If e.FieldName = "Account" OrElse e.FieldName = "UnitOfMeasure" Then
       Dim p As Sybiz.Vision.Platform.Inventory.Transaction.IProductDetail = TryCast(e.Line, Sybiz.Vision.Platform.Inventory.Transaction.IProductDetail)
       
-      If p IsNot Nothing AndAlso p.IsValid Then 
+      If p IsNot Nothing AndAlso p.ProductDetails.IsValid Then 
         If p.ProductDetails.ProductPrices.Any(Function(x) x.Id = transaction.CustomerDetails.PriceScale) = False Then
             Dim highPrice As Sybiz.Vision.Platform.Inventory.ProductPriceDetailInfo = p.ProductDetails.ProductPrices.OrderByDescending(Function(x) x.Price).FirstOrDefault()
             If highPrice Is Nothing Then
-              e.Line.UnitChargeExclusive = 1000000
+              e.Line.Charge = 10000000
               BreakpointHelpers.ShowErrorMessage(e.Form, "ERROR", "This product has no price scales, and this should be rectified immediately")
             Else 
-                e.Line.UnitChargeExclusive = highprice.Price * e.Line.UnitOfMeasureFactor          
+                If transaction.PriceEntryMode = TransactionPriceMode.Exclusive Then
+                  e.Line.UnitChargeExclusive = highprice.Price * e.Line.UnitOfMeasureFactor
+                Else
+                  e.Line.UnitChargeInclusive = highprice.InclusiveCharge * e.Line.UnitOfMeasureFactor
+                End If          
             End If                    
         End If
       End If
