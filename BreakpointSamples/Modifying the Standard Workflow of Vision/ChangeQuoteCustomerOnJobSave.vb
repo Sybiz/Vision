@@ -32,11 +32,15 @@ Public Class ChangeQuoteCustomerOnJobSave
           loadedQuote.ChangeCustomer(job.Customer)
 
           For Each copy As Sybiz.Vision.Platform.Debtors.Transaction.SalesQuoteLine In copyLines
-          Dim newline As Sybiz.Vision.Platform.Debtors.Transaction.SalesQuoteLine = loadedQuote.Lines.AddNew(copy.AccountType)
-          With newline
+          Dim newLine As Sybiz.Vision.Platform.Debtors.Transaction.SalesQuoteLine = loadedQuote.Lines.AddNew(copy.AccountType)
+          With newLine
             .Account = copy.Account
             .Quantity = copy.Quantity            
-            .Charge = copy.Charge
+            If loadedquote.PriceEntryMode = TransactionPriceMode.Exclusive Then
+              .ChargeExclusive = copy.ChargeExclusive
+            Else
+              .ChargeInclusive = copy.ChargeInclusive
+            End If
             .Notes = copy.Notes
             'Any further line properties needed can be placed here
           End With
