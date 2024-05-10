@@ -47,7 +47,8 @@ Public Class ImportServiceRequestViaExcelSpreadsheet
                             End If								
                         End While
                     End Using
-                End Using	
+                End Using
+		BreakpointHelpers.ShowInformationMessage(e.Form, "Success", "All service requests have been imported successfully!")
             Catch ex as Exception
                 BreakpointHelpers.ShowErrorMessage(e.Form,"ERROR",ex.Message)
             End Try                    
