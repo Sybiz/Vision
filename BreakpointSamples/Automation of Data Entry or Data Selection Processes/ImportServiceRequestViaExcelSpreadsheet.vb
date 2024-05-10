@@ -11,7 +11,7 @@ Public Class ImportServiceRequestViaExcelSpreadsheet
         If e.Key = "ServiceRequestImport" Then
             Try
                 Dim fileName as String
-                Using frm as OpenFileDialog = BreakpointHelpers.ShowOpenFileDialog("",false,"*.csv")
+                Using frm as OpenFileDialog = BreakpointHelpers.ShowOpenFileDialog("",false,"*.xslx")
                     If frm.ShowDialog(e.Form) = DialogResult.OK Then
                         fileName = frm.FileName
                     End if
