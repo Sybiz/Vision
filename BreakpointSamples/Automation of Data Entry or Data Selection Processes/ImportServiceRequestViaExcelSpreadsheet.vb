@@ -1,6 +1,7 @@
 Public Class ImportServiceRequestViaExcelSpreadsheet
 
   'Scenario: Uses a spreadsheet with service request data to create service requests from an historical data source, additional columns can be added as necessary
+  '          It does assume that the invoice value is known and will be captured by using a fixed pricing method for historical data only
   'Prerequisities: A pre-created XLSX file using codes for requests, departments, status, etc.
                   'Further, a custom button should be defined with the key "ServiceRequestImport".
     
