@@ -16,7 +16,7 @@
 		For Each line As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoiceLine In transaction.Lines
 
 			'If the line type is IC and we haven't hit any problems yet
-			If line.AccountType = Sybiz.Vision.Platform.Core.Enumerations.SalesLineType.IC And check = False Then
+			If line.AccountType = Sybiz.Vision.Platform.Core.Enumerations.SalesLineType.IC AndAlso check = False Then
 				'Reset values, just in case...
 				product = 0
 				markupMin = 0
@@ -31,7 +31,7 @@
 				markup = line.SalesMarkup
 
 				'If markup is below the minimum, and the user isn't an admin - display this to the user, stop the transaction and prevent any further lines from being checked.
-				If markup < markupMin And admin = False Then
+				If markup < markupMin AndAlso admin = False Then
 					System.Windows.Forms.MessageBox.Show(String.Format("There is a markup value in this invoice of " & markup & "%, which is less than the product's minimum markup of " & markupMin & "%. Check the invoice and resolve this issue."))
 					e.Cancel = True
 					check = True
