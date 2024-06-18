@@ -11,8 +11,8 @@ Public Class ChangeQuoteCustomerOnJobSave
     Dim query As String = "SELECT SalesQuoteId FROM dr.SalesQuote WHERE SalesQuoteId = (SELECT sq.SalesQuoteId FROM dr.SalesQuote sq INNER JOIN dr.SalesQuoteLine sql ON sql.SalesQuoteId = sq.SalesQuoteId WHERE sq.CustomerId <> @customerid AND [sql].JobId = @jobid) AND NOT EXISTS(SELECT NULL FROM dr.SalesQuoteLine sql INNER JOIN dr.SalesQuote sq ON sq.SalesQuoteId = sql.SalesQuoteId WHERE sq.CustomerId <> @customerid AND [sql].JobId = @jobid AND SourceDocumentId <> 0) AND NOT EXISTS(SELECT NULL FROM dr.SalesOrderLine sol INNER JOIN dr.SalesQuote sq ON sq.SalesQuoteId = sol.SourceDocumentId WHERE sol.SourceDocumentType = 'SalesQuote' AND sol.JobId = @jobid) AND NOT EXISTS(SELECT NULL FROM dr.SalesDeliveryLine sdl INNER JOIN dr.SalesQuote sq ON sq.SalesQuoteId = sdl.SourceDocumentId WHERE sdl.SourceDocumentType = 'SalesQuote' AND sdl.JobId = @jobid) AND NOT EXISTS(SELECT NULL FROM dr.SalesInvoiceLine sil INNER JOIN dr.SalesQuote sq ON sq.SalesQuoteId = sil.SourceDocumentId WHERE sil.SourceDocumentType = 'SalesQuote' AND sil.JobId = @jobid) AND CustomerId <> @customerId"
     				
     If BreakpointHelpers.RecordExists(query,params) = true Then
-      Dim cont As DialogResult = BreakpointHelpers.ShowYesNoMessageBox(e.Form,"Change Customer","Incomplete Sales Quotes have been found for this job, not against the job's customer" + Environment.NewLine + "Would you like to change all quotes found to match the job's new customer?")
-      If cont = DialogResult.Yes Then
+      Dim result As DialogResult = BreakpointHelpers.ShowYesNoMessageBox(e.Form,"Change Customer","Incomplete Sales Quotes have been found for this job, not against the job's customer" + Environment.NewLine + "Would you like to change all quotes found to match the job's new customer?")
+      If result = DialogResult.Yes Then
         Dim QuoteIds As New List (Of Integer)
         						
         Using dt = BreakpointHelpers.CreateDataTableFromQuery(query, params)
