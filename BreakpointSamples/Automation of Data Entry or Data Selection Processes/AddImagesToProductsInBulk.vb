@@ -20,7 +20,7 @@ Public Module ExternalApplicationCustomRibbonButtonClick
 		Try
 			Dim dir As New DirectoryInfo(dirname)
 			For Each f As FileInfo In dir.GetFiles()
-				If f.Extension = ".jpg" Or f.Extension = ".png" Then
+				If f.Extension = ".jpg" OrElse f.Extension = ".png" Then
 					Try
 						'There is an assumption that the image names match codes within Vision
 						prod = Sybiz.Vision.Platform.Inventory.Product.GetObject(f.Name.Replace(f.Extension,""))							
