@@ -19,7 +19,7 @@
 				End If
 			Next
 
-			If Sybiz.Vision.Platform.Security.Principal.CurrentPrincipal().UserId = 1 And amount > 0 Then 'We're using administrator, this should be the user ID for 'counter 1'. We're also only doing this for receipts with any cash amount
+			If Sybiz.Vision.Platform.Security.Principal.CurrentPrincipal().UserId = 1 AndAlso amount > 0 Then 'We're using administrator, this should be the user ID for 'counter 1'. We're also only doing this for receipts with any cash amount
 				accountCounter = 2639 'Cash clearing for counter 1 - in this example we chose a random GL account.
 
 				'Create a new GL Journal, reference is the Receipt

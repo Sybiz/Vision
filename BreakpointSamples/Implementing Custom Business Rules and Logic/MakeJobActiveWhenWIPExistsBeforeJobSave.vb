@@ -11,7 +11,7 @@ Public Class MakeJobActiveWhenWIPExistsBeforeJobSave
 		Dim jdi As Sybiz.Vision.Platform.JobCosting.JobDetailInfo = Sybiz.Vision.Platform.JobCosting.JobDetailInfo.GetObject(id)
 		Dim WIP As Decimal = jdi.OutstandingCosts
 				
-		If WIP > 0 And job.IsActive = False Then
+		If WIP > 0 AndAlso job.IsActive = False Then
 			job.IsActive = True
 			BreakpointHelpers.ShowErrorMessage(e.Form, "WARNING", "This job has WIP and cannot be made inactive. It has been made active again")
 		End If
