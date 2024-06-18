@@ -17,21 +17,20 @@ Public Class ImportInvoiceViaDataTable
           End if
         End Using
                 
-    Dim import As System.Data.DataTable = BreakpointHelpers.CreateDataTableFromCSV(fileName)
-                
-    For Each row As System.Data.DataRow In import.Rows
-        Dim code = row("Product")
-        Dim quantity = row("QtyInv")
-        Dim price = row("Price")
-        Dim productId = Sybiz.Vision.Platform.Inventory.ProductDetailInfo.GetObject(code).Id
-        If productId > 0 Then
-          Dim newline As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoiceLine = transaction.Lines.AddNew(SalesLineType.IC)   'Assumption that only IC lines being used at this time
-          newline.Account = productId
-          newline.QuantityInvoice = quantity
-          newline.UnitChargeExclusive = price
-          newline.Location = 3      'Assumption that header loaction has not been set, otherwise do not set                   
-        End if
-      Next
+    Using import = BreakpointHelpers.CreateDataTableFromCSV(fileName)
+        Using edr = New Sybiz.Vision.Platform.Core.Data.ExtendedSafeDataReader(import.CreateDataReader())
+            While edr.Read()
+                Dim productId = Sybiz.Vision.Platform.Inventory.ProductDetailInfo.GetObject(edr.GetString("Product")).Id
+                If productId > 0 Then
+                    Dim newline As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoiceLine = transaction.Lines.AddNew(SalesLineType.IC)   'Assumption that only IC lines being used at this time
+                    newline.Account = productId
+                    newline.QuantityInvoice = edr.GetDecimal("QtyInv")
+                    newline.UnitChargeExclusive = edr.GetDecimal("Price")
+                    newline.Location = 3      'Assumption that header loaction has not been set, otherwise do not set                   
+                End If
+            End While
+        End Using
+    End Using
     End If
 	
   End Sub
