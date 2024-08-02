@@ -9,8 +9,8 @@ Public Module ExternalApplicationCustomRibbonButtonClick
 	 If (e.Key = "PicUpload") Then
 		Dim errorLog As List(Of String) = New List(Of String)
 
-		Dim productObject As Sybiz.Vision.Platform.Inventory.Product
-		Dim pictureObject As Sybiz.Vision.Platform.Common.Picture
+		Dim product As Sybiz.Vision.Platform.Inventory.Product
+		Dim picture As Sybiz.Vision.Platform.Common.Picture
 		Dim directoryName As String = BreakpointHelpers.GetStringValue(e.Form,"Directory Name","Please enter the directory name you wish to read images from","C:\")
 		Dim continueCheck As DialogResult = BreakpointHelpers.ShowYesNoMessageBox(e.Form,"WARNING","Pressing yes will read all files in " + directoryName +" and attach them to relevant products, do you want to continue?")
 		If continueCheck = DialogResult.No Then
@@ -23,12 +23,12 @@ Public Module ExternalApplicationCustomRibbonButtonClick
 				If f.Extension = ".jpg" OrElse f.Extension = ".png" Then
 					Try
 						'There is an assumption that the image names match codes within Vision
-						productObject = Sybiz.Vision.Platform.Inventory.Product.GetObject(f.Name.Replace(f.Extension,""))							
-						If productObject.Pictures.Count = 0 Then
-							pictureObject = productObject.Pictures.AddNew()
-							pictureObject.Image = File.ReadAllBytes(f.FullName)
-							If productObject.IsSavable = True Then
-								productObject.Save
+						product = Sybiz.Vision.Platform.Inventory.Product.GetObject(f.Name.Replace(f.Extension,""))							
+						If product.Pictures.Count = 0 Then
+							picture = product.Pictures.AddNew()
+							picture.Image = File.ReadAllBytes(f.FullName)
+							If product.IsSavable = True Then
+								product.Save
 							Else
 								Throw New Exception("Product could not be saved!")
 							End If
