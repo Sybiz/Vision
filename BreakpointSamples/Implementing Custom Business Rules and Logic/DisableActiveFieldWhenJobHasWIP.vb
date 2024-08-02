@@ -9,8 +9,8 @@ Public Class DisableActiveFieldWhenJobHasWIP
     If e.PropertyName = "IsActive"
       Dim job As Sybiz.Vision.Platform.JobCosting.Job = DirectCast(sender, Sybiz.Vision.Platform.JobCosting.Job)
       If job.IsNew = false AndAlso job.IsActive Then                             
-        Dim jdi As Sybiz.Vision.Platform.JobCosting.JobDetailInfo = Sybiz.Vision.Platform.JobCosting.JobDetailInfo.GetObject(job.id)
-        Dim WIP As Decimal = jdi.OutstandingCosts
+        Dim jobDetail As Sybiz.Vision.Platform.JobCosting.JobDetailInfo = Sybiz.Vision.Platform.JobCosting.JobDetailInfo.GetObject(job.id)
+        Dim WIP As Decimal = jobDetail.OutstandingCosts
         If WIP > 0 Then
           e.Handled = True
         End If
