@@ -8,8 +8,8 @@ Public Class ForcePayandProcessForCashCustomer
 	Public Sub Invoke(ByVal transaction As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoice, ByVal e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCancelEventArgs) 'Do not remove - SYBIZ
 
 		If transaction.CustomerDetails.TradingTerms.Term = TradingTermType.Cash Then
-			Dim salesform As Sybiz.Vision.WinUI.Base.SalesTransactionBase = DirectCast(e.Form, Sybiz.Vision.WinUI.Base.SalesTransactionBase)
-			If (salesform.HasReceipt = false)
+			Dim salesForm As Sybiz.Vision.WinUI.Base.SalesTransactionBase = DirectCast(e.Form, Sybiz.Vision.WinUI.Base.SalesTransactionBase)
+			If (salesForm.HasReceipt = false)
 				e.Cancel = True
 				BreakpointHelpers.PerformRibbonButtonClick(e.Form, "Pay & Process")
 			End If
