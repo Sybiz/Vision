@@ -5,17 +5,17 @@
 	'Breakpoint: BeforeSalesInvoiceProcess
 
 	Public Sub Invoke(transaction As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoice, e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCancelEventArgs)
-		Dim number As String
+		Dim receiptNumber As String
 		Dim accountClearing As Integer = 111 'Main cash clearing account
 		Dim accountCounter As Integer
 		Dim amount As Decimal
 
 		Try
-			number = transaction.Receipt.TransactionNumber 'Get receipt
+			receiptNumber = transaction.Receipt.TransactionNumber 'Get receipt
 
-			For Each rline As Sybiz.Vision.Platform.Debtors.Transaction.ReceiptLine In transaction.Receipt.Lines 'Get total of cash receipt
-				If rline.PayProcessType = 1 Then 'In our DB - PayProcessType of 1 is cash - yours may be different!
-					amount += rline.Amount
+			For Each receiptLine As Sybiz.Vision.Platform.Debtors.Transaction.ReceiptLine In transaction.Receipt.Lines 'Get total of cash receipt
+				If receiptLine.PayProcessType = 1 Then 'In our DB - PayProcessType of 1 is cash - yours may be different!
+					amount += receiptLine.Amount
 				End If
 			Next
 
@@ -24,27 +24,27 @@
 
 				'Create a new GL Journal, reference is the Receipt
 				Dim journal As Sybiz.Vision.Platform.GeneralLedger.Transaction.Journal = Sybiz.Vision.Platform.GeneralLedger.Transaction.Journal.NewObject(Nothing, True, True)
-				journal.Description = "Clearing for " & number
+				journal.Description = "Clearing for " & receiptNumber
 
 				'Line 1 goes to Main Clearing as credit
 				Dim journalLine As Sybiz.Vision.Platform.GeneralLedger.Transaction.JournalLine = journal.Lines.AddNew()
 				journalLine.Account = accountClearing
-				journalLine.Reference = "Clearing for " & number
-				journalLine.Description = "Clearing for " & number
+				journalLine.Reference = "Clearing for " & receiptNumber
+				journalLine.Description = "Clearing for " & receiptNumber
 				journalLine.Credit = amount
 
 				'Line 2 goes to Specific Counter Clearing as debit
 				Dim journalLineCounter As Sybiz.Vision.Platform.GeneralLedger.Transaction.JournalLine = journal.Lines.AddNew()
 				journalLineCounter.Account = accountCounter
-				journalLineCounter.Reference = "Clearing for " & number
-				journalLineCounter.Description = "Clearing for " & number
+				journalLineCounter.Reference = "Clearing for " & receiptNumber
+				journalLineCounter.Description = "Clearing for " & receiptNumber
 				journalLineCounter.Debit = amount
 
-				'If processable, do so and flag the user that success was had, including the journal number. If not, display why in business rule terms and CANCEL THE WHOLE TRANSACTION
+				'If processable, do so and flag the user that success was had, including the journal receiptNumber. If not, display why in business rule terms and CANCEL THE WHOLE TRANSACTION
 				If journal.IsProcessable Then
 					journal = journal.Process
-					number = journal.TransactionNumber
-					System.Windows.Forms.MessageBox.Show(String.Format("Cash Clearing Successfully Processed as " & number))
+					receiptNumber = journal.TransactionNumber
+					System.Windows.Forms.MessageBox.Show(String.Format("Cash Clearing Successfully Processed as " & receiptNumber))
 				ElseIf (journal.IsValid) Then
 					For Each line As Sybiz.Vision.Platform.GeneralLedger.Transaction.JournalLine In journal.Lines
 						For Each rule As Sybiz.Vision.Platform.Validation.BrokenRuleInfo In line.GetBrokenRuleInfo
