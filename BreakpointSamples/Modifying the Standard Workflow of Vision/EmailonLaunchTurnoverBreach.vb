@@ -9,8 +9,8 @@ Public Class EmailonLaunchTurnoverBreach
     If Sybiz.Vision.Platform.Common.Company.CanEdit() AndAlso Sybiz.Vision.Platform.Common.CompanyInfo.GetObject().ExtendedProperties.GetCustomField("TURNOVER") <= System.DateTime.Today
       BreakpointHelpers.SendEmailWhenExceedTurnoverLimits(80, "turnover_manager@company.com", "WARNING: TURNOVER PROBLEM IN " + Sybiz.Vision.Platform.Common.CompanyInfo.GetCachedObject().CompanyName.ToUpper(), "TURNOVER PROBLEM!" + System.Environment.NewLine + "CURRENT TURNOVER IS $" + BreakpointHelpers.CurrentTurnoverValue.ToString("#,##0") + " OUT OF $" + Sybiz.Vision.Platform.Licensing.LicenseRights.FeatureRights.TurnoverLimit.ToString("#,##0") + "." + System.Environment.NewLine + "THIS EMAIL WILL NOT BE SENT AGAIN FOR 3 DAYS, RECTIFY THIS ISSUE IMMEDIATELY!")
       Dim company = Sybiz.Vision.Platform.Common.Company.GetObject()
-      Dim newdate = company.ExtendedProperties.Item("TURNOVER")
-      newdate.ObjectValue = System.DateTime.Today.AddDays(3)
+      Dim newDate = company.ExtendedProperties.Item("TURNOVER")
+      newDate.ObjectValue = System.DateTime.Today.AddDays(3)
       company.Save()
     End If
 	
