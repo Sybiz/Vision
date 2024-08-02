@@ -11,9 +11,9 @@ Public Class OpenItemsonVisionLaunch
 					
 				'Since scenario	is a POS environment, we are 'forcing' Kiosk mode on through this breakpoint.				
 				If (Sybiz.Vision.Platform.Admin.DeviceSettings.CanAccess()) Then
-					Dim ds As Sybiz.Vision.Platform.Admin.DeviceSettings = Sybiz.Vision.Platform.Admin.DeviceSettings.GetObject()
-					ds.KioskMode = true
-					ds = ds.Save()
+					Dim deviceSettings As Sybiz.Vision.Platform.Admin.DeviceSettings = Sybiz.Vision.Platform.Admin.DeviceSettings.GetObject()
+					deviceSettings.KioskMode = true
+					deviceSettings = deviceSettings.Save()
 				End If
 								
 				BreakpointHelpers.PerformRibbonButtonClick(e.Form, "Sales Invoice")
