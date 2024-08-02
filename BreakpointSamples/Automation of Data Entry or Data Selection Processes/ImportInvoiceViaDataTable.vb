@@ -22,11 +22,11 @@ Public Class ImportInvoiceViaDataTable
             While edr.Read()
                 Dim productId = Sybiz.Vision.Platform.Inventory.ProductDetailInfo.GetObject(edr.GetString("Product")).Id
                 If productId > 0 Then
-                    Dim newline As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoiceLine = transaction.Lines.AddNew(SalesLineType.IC)   'Assumption that only IC lines being used at this time
-                    newline.Account = productId
-                    newline.QuantityInvoice = edr.GetDecimal("QtyInv")
-                    newline.UnitChargeExclusive = edr.GetDecimal("Price")
-                    newline.Location = 3      'Assumption that header loaction has not been set, otherwise do not set                   
+                    Dim newLine As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoiceLine = transaction.Lines.AddNew(SalesLineType.IC)   'Assumption that only IC lines being used at this time
+                    newLine.Account = productId
+                    newLine.QuantityInvoice = edr.GetDecimal("QtyInv")
+                    newLine.UnitChargeExclusive = edr.GetDecimal("Price")
+                    newLine.Location = 3      'Assumption that header loaction has not been set, otherwise do not set                   
                 End If
             End While
         End Using

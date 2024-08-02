@@ -6,13 +6,13 @@ Public Class AutoUpdateLastCostExamples
 
   Public Sub Invoke(ByVal transaction As Sybiz.Vision.Platform.Inventory.Transaction.StockTransfer, ByVal e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointEventArgs) 'Do not remove - SYBIZ
 
-    For each l As Sybiz.Vision.Platform.Inventory.Transaction.StockTransferLine In transaction.Lines
+    For each line As Sybiz.Vision.Platform.Inventory.Transaction.StockTransferLine In transaction.Lines
 	'If source location is elsewhere...
-  	If  l.TransferType = Sybiz.Vision.Platform.Core.Enumerations.TransferType.LocationToLocation AndAlso l.Source = 0 Then		
+  	If  line.TransferType = Sybiz.Vision.Platform.Core.Enumerations.TransferType.LocationToLocation AndAlso line.Source = 0 Then		
 		Try 
-			Sybiz.Vision.Platform.Inventory.Product.UpdateLocationLastCost(l.Product,l.Destination,l.UnitCost,true)
+			Sybiz.Vision.Platform.Inventory.Product.UpdateLocationLastCost(line.Product,line.Destination,line.UnitCost,true)
 		Catch ex as Exception
-			BreakpointHelpers.ShowErrorMessage(e.Form, String.Format("Unable to update {0} last cost", l.ProductDetails.Code), ex.Message)
+			BreakpointHelpers.ShowErrorMessage(e.Form, String.Format("Unable to update {0} last cost", line.ProductDetails.Code), ex.Message)
 		End Try		
  	End If
     Next
@@ -22,11 +22,11 @@ Public Class AutoUpdateLastCostExamples
 
   Public Sub Invoke(ByVal transaction As Sybiz.Vision.Platform.Inventory.Transaction.ManufactureIssue, ByVal e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointEventArgs) 'Do not remove - SYBIZ
 
-    For each l As Sybiz.Vision.Platform.Inventory.Transaction.ManufactureIssueLine In transaction.Lines
-      Sybiz.Vision.Platform.Inventory.Product.UpdateLastCost(l.Product,l.UnitCost,false)
+    For each line As Sybiz.Vision.Platform.Inventory.Transaction.ManufactureIssueLine In transaction.Lines
+      Sybiz.Vision.Platform.Inventory.Product.UpdateLastCost(line.Product,line.UnitCost,false)
       
       'Alternatively, could use destination location here if one wanted to only update specific manufacturing location last cost
-      'Sybiz.Vision.Platform.Inventory.Product.UpdateLocationLastCost(l.ProductDetails.Id,l.DestinationLocation,l.UnitCost,false)
+      'Sybiz.Vision.Platform.Inventory.Product.UpdateLocationLastCost(line.ProductDetails.Id,line.DestinationLocation,line.UnitCost,false)
     Next
   
   End Sub

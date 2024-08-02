@@ -23,9 +23,9 @@ Namespace Breakpoints.Debtors.SalesOrder 'Do not remove - SYBIZ
 						
 						transaction.CleanseLines() 
 						
-						For each dp AS Sybiz.Vision.Platform.Debtors.Transaction.SalesOrderLine In transaction.Lines 
-							If dp.AccountType = SalesLineType.DP Then 
-								depamount = depAmount + (dp.QuantityOrder - dp.QuantityNetDelivered)
+						For each depositLine AS Sybiz.Vision.Platform.Debtors.Transaction.SalesOrderLine In transaction.Lines 
+							If depositLine.AccountType = SalesLineType.DP Then 
+								depamount = depAmount + (depositLine.QuantityOrder - depositLine.QuantityNetDelivered)
 							End If 
 						Next 
 						
@@ -33,11 +33,11 @@ Namespace Breakpoints.Debtors.SalesOrder 'Do not remove - SYBIZ
 					BreakpointHelpers.PerformRibbonButtonClick(e.Form,"Inclusive") 
 					
 					'This example has been written assuming a specific "Deposits Forfeited" account. This could be easily changed to utilise a different logic of where the forfeited deposit amount is placed. 
-					Dim glline As Sybiz.Vision.Platform.Debtors.Transaction.GLSalesOrderLine = transaction.Lines.AddNew(SalesLineType.GL) 
-					glline.Account = 2933 
-					glline.QuantityOrder = 1 
-					glline.UnitChargeInclusive = depamount 
-					glline.TaxCode = 6 'GST Applies, please note that this treatment may not be accurate for all scenarios, advice should be sought 
+					Dim glLine As Sybiz.Vision.Platform.Debtors.Transaction.GLSalesOrderLine = transaction.Lines.AddNew(SalesLineType.GL) 
+					glLine.Account = 2933 
+					glLine.QuantityOrder = 1 
+					glLine.UnitChargeInclusive = depamount 
+					glLine.TaxCode = 6 'GST Applies, please note that this treatment may not be accurate for all scenarios, advice should be sought 
 					
 					If transaction.IsProcessable then 
 						BreakpointHelpers.PerformRibbonButtonClick(e.Form,"Process & Close") 
@@ -50,10 +50,10 @@ Namespace Breakpoints.Debtors.SalesOrder 'Do not remove - SYBIZ
 						Next 
 					End If 
 					
-					Dim inv As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoice = Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoice.NewObject(Nothing, Nothing, Nothing) 
-					inv.AddSourceDocument(soid, TransactionType.SalesOrder) 
-					inv.InvoiceAndDeliverAll() 
-					Sybiz.Vision.Module.Coordinator.VisionApplication.GetApplication.DR.ShowSalesInvoiceForm(Nothing, inv, False) 
+					Dim invoice As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoice = Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoice.NewObject(Nothing, Nothing, Nothing) 
+					invoice.AddSourceDocument(soid, TransactionType.SalesOrder) 
+					invoice.InvoiceAndDeliverAll() 
+					Sybiz.Vision.Module.Coordinator.VisionApplication.GetApplication.DR.ShowSalesInvoiceForm(Nothing, invoice, False) 
 					
 					End If 
 				End If				

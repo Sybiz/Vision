@@ -7,9 +7,9 @@ Public Class MakeJobActiveWhenWIPExistsBeforeJobSave
 
 	Public Sub Invoke(ByVal job As Sybiz.Vision.Platform.JobCosting.Job, ByVal e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCancelEventArgs)
 
-		Dim id As String = job.id
-		Dim jdi As Sybiz.Vision.Platform.JobCosting.JobDetailInfo = Sybiz.Vision.Platform.JobCosting.JobDetailInfo.GetObject(id)
-		Dim WIP As Decimal = jdi.OutstandingCosts
+		Dim jobId As String = job.Id
+		Dim jobDetail As Sybiz.Vision.Platform.JobCosting.JobDetailInfo = Sybiz.Vision.Platform.JobCosting.JobDetailInfo.GetObject(jobId)
+		Dim WIP As Decimal = jobDetail.OutstandingCosts
 				
 		If WIP > 0 AndAlso job.IsActive = False Then
 			job.IsActive = True
