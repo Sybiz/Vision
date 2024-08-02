@@ -18,8 +18,8 @@ Public Class ImportServiceRequestViaExcelSpreadsheet
                     End if
                 End Using
 
-                Using dt = Sybiz.Vision.WinUI.Utilities.DocumentImportExport.ExportXlsxToDataTable(fileName,"Sheet1")
-                    Using edr = new Sybiz.Vision.Platform.Core.Data.ExtendedSafeDataReader(dt.CreateDataReader())
+                Using serviceRequestDataTable = Sybiz.Vision.WinUI.Utilities.DocumentImportExport.ExportXlsxToDataTable(fileName,"Sheet1")
+                    Using edr = new Sybiz.Vision.Platform.Core.Data.ExtendedSafeDataReader(serviceRequestDataTable.CreateDataReader())
                         While edr.Read()
                             Dim newRequest = Sybiz.Vision.Platform.Service.ServiceRequest.GetObject(0)
                             
