@@ -13,7 +13,7 @@ Public Class ChangeQuoteCustomerOnJobSave
     If BreakpointHelpers.RecordExists(query,params) = true Then
       Dim result As DialogResult = BreakpointHelpers.ShowYesNoMessageBox(e.Form,"Change Customer","Incomplete Sales Quotes have been found for this job, not against the job's customer" + Environment.newLine + "Would you like to change all quotes found to match the job's new customer?")
       If result = DialogResult.Yes Then
-        Dim QuoteIds As New List (Of Integer)
+        Dim quoteIds As New List (Of Integer)
         						
         Using quoteDataTable = BreakpointHelpers.CreateDataTableFromQuery(query, params)
           Using edr = new Sybiz.Vision.Platform.Core.Data.ExtendedSafeDataReader(quoteDataTable.CreateDataReader())
