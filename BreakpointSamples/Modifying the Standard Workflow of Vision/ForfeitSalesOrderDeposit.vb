@@ -16,7 +16,7 @@ Namespace Breakpoints.Debtors.SalesOrder 'Do not remove - SYBIZ
 		Public Sub Invoke(ByVal transaction As Sybiz.Vision.Platform.Debtors.Transaction.SalesOrder, ByVal e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCustomRibbonButtonClickEventArgs) 'Do not remove - SYBIZ
 			Try 'Do not remove - SYBIZ
 				'Enter your code below - SYBIZ
-				If e.Key = "ClearDeposit" Then 
+				If e.Key.Equals("ClearDeposit") = True Then 
 					If BreakpointHelpers.ShowYesNoMessageBox(e.Form, "WARNING", "Warning: This will cleanse this Sales Order and prepare an invoice for pay and process. Do you want to continue?") = DialogResult.Yes Then 
 						Dim soid = transaction.Id 
 						Dim depamount As Decimal 
