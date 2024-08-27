@@ -6,7 +6,7 @@
 
     Public Sub Invoke(e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCustomRibbonButtonClickEventArgs)
 
-        If e.Key.Equals("BreakpointKey") Then
+        If e.Key.Equals("BreakpointKey") = True Then
             'Show a new supplier form
             Dim formSupplier As Sybiz.Vision.Module.Coordinator.VisionDialogResult = Sybiz.Vision.Module.Coordinator.VisionApplication.GetApplication().CR.ShowSupplierForm(e.Form, 0, Nothing, Nothing)
 
