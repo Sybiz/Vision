@@ -6,7 +6,7 @@ Public Class DisableActiveFieldWhenJobHasWIP
 	
   Public Sub Invoke(ByVal sender As System.Object, ByVal e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointPropertyDisabledEventArgs) 'Do not remove - SYBIZ
 
-    If e.PropertyName = "IsActive"
+    If e.PropertyName.Equals("IsActive") = True Then
       Dim job As Sybiz.Vision.Platform.JobCosting.Job = DirectCast(sender, Sybiz.Vision.Platform.JobCosting.Job)
       If job.IsNew = false AndAlso job.IsActive Then                             
         Dim jobDetail As Sybiz.Vision.Platform.JobCosting.JobDetailInfo = Sybiz.Vision.Platform.JobCosting.JobDetailInfo.GetObject(job.id)
