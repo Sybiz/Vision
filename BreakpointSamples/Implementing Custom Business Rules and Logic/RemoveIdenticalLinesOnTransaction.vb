@@ -6,7 +6,7 @@
 
     Public Sub Invoke(transaction As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoice, e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCellValueChangedEventArgs(Of Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoiceLine))
         'Check for the item field
-        If e.FieldName.Equals("Account") Then
+        If e.FieldName.Equals("Account") = True Then
             'Iterate through each sales invoice line in the sales invoice
             For Each line As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoiceLine In transaction.Lines
                 'Check the line being added against the currently iterated sales invoice line
