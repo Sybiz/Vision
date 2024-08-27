@@ -6,7 +6,7 @@
 
     Public Sub Invoke(transaction As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoice, e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCellRepositoryEventArgs(Of Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoiceLine))
         'Check for the tax code field
-        If e.FieldName.Equals("TaxCode") Then
+        If e.FieldName.Equals("TaxCode") = True Then
             'Set to true to disable the tax code field
             e.Handled = True
         End If
