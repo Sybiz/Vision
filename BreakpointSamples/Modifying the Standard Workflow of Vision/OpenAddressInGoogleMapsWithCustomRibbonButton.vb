@@ -23,7 +23,7 @@
 
     Public Sub Invoke(transaction As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoice, e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCustomRibbonButtonClickEventArgs)
         'Check the key for the button that was clicked
-        If e.Key = "GoogleMaps" AndAlso transaction.Customer > 0 Then
+        If e.Key.Equals("GoogleMaps") = True AndAlso transaction.Customer > 0 Then
 
             'Get the default delivery address for the customer on the sales invoice
             Dim customer As Sybiz.Vision.Platform.Debtors.CustomerDetailInfo = Sybiz.Vision.Platform.Debtors.CustomerDetailInfo.GetObject(transaction.Customer)

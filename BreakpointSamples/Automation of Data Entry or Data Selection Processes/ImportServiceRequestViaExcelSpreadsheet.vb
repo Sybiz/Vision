@@ -9,7 +9,7 @@ Public Class ImportServiceRequestViaExcelSpreadsheet
 	
 	
 	Public Sub Invoke(ByVal e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCustomRibbonButtonClickEventArgs) 'Do not remove - SYBIZ
-        If e.Key = "ServiceRequestImport" Then
+        If e.Key.Equals("ServiceRequestImport") = True Then
             Try
                 Dim fileName as String
                 Using frm as OpenFileDialog = BreakpointHelpers.ShowOpenFileDialog("",false,"*.xslx")

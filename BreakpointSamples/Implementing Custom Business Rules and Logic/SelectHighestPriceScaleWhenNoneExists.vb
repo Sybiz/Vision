@@ -9,7 +9,7 @@ Public Class SelectHighestPriceScaleWhenNoneExists
   'Breakpoint: SalesInvoiceCellValueChanged
 
   Public Sub Invoke(ByVal transaction As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoice, ByVal e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointSalesDeliveryInvoiceCellValueChangedEventArgs(Of Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoiceLine)) 'Do not remove - SYBIZ
-    If e.FieldName = "Account" OrElse e.FieldName = "UnitOfMeasure" Then
+    If e.FieldName.Equals("Account") = True OrElse e.FieldName.Equals("UnitOfMeasure") = True Then
       Dim p As Sybiz.Vision.Platform.Inventory.Transaction.IProductDetail = TryCast(e.Line, Sybiz.Vision.Platform.Inventory.Transaction.IProductDetail)
       
       If p IsNot Nothing AndAlso p.ProductDetails.IsValid Then 

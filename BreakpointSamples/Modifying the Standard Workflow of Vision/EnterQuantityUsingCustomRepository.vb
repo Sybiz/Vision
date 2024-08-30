@@ -6,7 +6,7 @@
 
     Public Sub Invoke(transaction As Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoice, e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCellRepositoryEventArgs(Of Sybiz.Vision.Platform.Debtors.Transaction.SalesInvoiceLine))
         'Check for the quantity invoice field
-        If e.FieldName = "QuantityInvoice" Then
+        If e.FieldName.Equals("QuantityInvoice") = True Then
             'Set to true to enable the custom repository
             e.Handled = True
         End If

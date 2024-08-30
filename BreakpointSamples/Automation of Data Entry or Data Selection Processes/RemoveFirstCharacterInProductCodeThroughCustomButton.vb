@@ -5,7 +5,7 @@ Public Module ExternalApplicationCustomRibbonButtonClick
 	'Breakpoint: ExternalApplicationCustomRibbonButtonClick
 
 	Public Sub Invoke(ByVal e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCustomRibbonButtonClickEventArgs)
-		If (e.Key = "REPLACEPRODUCTCODES") Then
+		If e.Key.Equals("REPLACEPRODUCTCODES") = True Then
 			System.Windows.Forms.Application.UseWaitCursor = true
 			Try						
 				Dim productsList as Sybiz.Vision.Platform.Inventory.ProductLookupInfoList = Sybiz.Vision.Platform.Inventory.ProductLookupInfoList.GetList()

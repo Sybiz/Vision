@@ -6,7 +6,7 @@ Public Module ExternalApplicationCustomRibbonButtonClick
 
   Public Sub Invoke(ByVal e As Sybiz.Vision.Platform.Admin.Breakpoints.BreakpointCustomRibbonButtonClickEventArgs)				
 
-    If (e.Key = "PicDownload") Then
+    If e.Key.Equals("PicDownload") = True Then
       Dim errorlog As List(Of String) = New List(Of String)
       Dim dirname As String = BreakpointHelpers.GetStringValue(e.Form,"Directory Name","Please enter the directory name you wish to save product images to","C:\")
       Dim cont As DialogResult = BreakpointHelpers.ShowYesNoMessageBox(e.Form,"WARNING","Pressing yes will take all pictures attached to products and download them to " + dirname + " do you want to continue?")

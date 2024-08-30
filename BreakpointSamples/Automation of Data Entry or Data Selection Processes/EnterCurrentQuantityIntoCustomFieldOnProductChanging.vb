@@ -9,7 +9,7 @@
 		Dim customField As Object = e.Line.ExtendedProperties.Item("QOH")
 
 		'If field being edited is either account or location then...				
-		If e.FieldName = "Account" OrElse e.FieldName = "Location" Then
+		If e.FieldName.Equals("Account") = True OrElse e.FieldName.Equals("Location") = True Then
 			'Get the quantity
 			Dim qty As Decimal = Sybiz.Vision.Platform.Core.Data.ScalarCommand.Execute(Of Decimal)(String.Format("SELECT Quantity FROM [ic].[ProductBalanceExpanded] WHERE ProductId = {0} AND LocationId = {1}", e.Line.Account, e.Line.Location))
 			'Insert the quantuty into the custom field

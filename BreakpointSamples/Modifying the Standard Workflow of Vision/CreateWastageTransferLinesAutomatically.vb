@@ -12,7 +12,7 @@ Public Class CreateWastageTransferLines
 		Dim productDictionary as New Dictionary(Of String, Decimal)
 		
 		transaction.Lines.ToList().ForEach(Sub(ln) 
-							If ln.Notes = "Automatically calculated wastage" Then
+							If ln.Notes.Equals("Automatically calculated wastage") = True Then
 								transaction.Lines.Remove(ln)
 							End If
 						End Sub)													

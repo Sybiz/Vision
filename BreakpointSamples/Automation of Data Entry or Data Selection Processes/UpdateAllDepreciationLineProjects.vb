@@ -27,7 +27,7 @@
 		Dim project As Integer
 
 		'When clicking the button
-		If e.Key = "ProjectPropagation" AndAlso transaction.Lines.Count > 0 Then
+		If e.Key.Equals("ProjectPropagation") = True AndAlso transaction.Lines.Count > 0 Then
 
 			'Go through each line...
 			For Each line As Sybiz.Vision.Platform.FixedAssets.Transaction.DepreciationRunLine In transaction.Lines

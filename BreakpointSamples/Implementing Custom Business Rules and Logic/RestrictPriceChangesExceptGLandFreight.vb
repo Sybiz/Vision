@@ -11,7 +11,7 @@
     ElseIf Sybiz.Vision.Platform.Security.Principal.CurrentPrincipal.IsInRole("FrontOfHouse") Then'OrElse...any other roles you want to restrict
     'Alternative method, do reverse where everyone BUT those in an 'admin' role are restricted.
     'ElseIf Sybiz.Vision.Platform.Security.Principal.CurrentPrincipal.IsInRole("PriceOverride") = False Then
-        If e.FieldName = "Charge" OrElse e.FieldName = "UnitChargeExclusive" OrElse e.FieldName = "ChargeExclusive" OrElse e.FieldName = "Discount" OrElse e.FieldName = "DiscountPercentage" OrElse e.FieldName = "UnitChargeInclusive" OrElse e.FieldName = "ChargeInclusive" Then
+        If e.FieldName.Equals("Charge") = True OrElse e.FieldName.Equals("UnitChargeExclusive") = True OrElse e.FieldName.Equals("ChargeExclusive") = True OrElse e.FieldName.Equals("Discount") = True OrElse e.FieldName.Equals("DiscountPercentage") = True OrElse e.FieldName.Equals("UnitChargeInclusive") = True OrElse e.FieldName.Equals("ChargeInclusive") = True Then
           e.Handled = True
         End If
     End If
