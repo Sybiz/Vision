@@ -1,7 +1,8 @@
 Public Class ForeignServiceWorkflow_Quote
 
   'Scenario: In combination with ForeignServiceWorkflow_Invoice, handles a concept of processing a Service Quote (for a "Quote" based service request invoice) in "foreign currency", for invoicing.
-  'Prerequisities: This breakpoint assumes foreign currency price scales having been set up against products. This breakpoint is un-necessary if this has not been done
+  'Prerequisities: This breakpoint assumes foreign currency price scales having been set up against products. This breakpoint is un-necessary if this has not been done; and FX values should be manually entered.
+  		  'It is also noted that generally speaking, the idea here is that a form edit would be done to manage that part of the problem.
   'Breakpoint: BeforeServiceQuoteProcess
 	
 
