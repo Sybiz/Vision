@@ -11,7 +11,9 @@ Public Class ForeignServiceWorkflow_AdvInvoice
     If transaction.CustomerDetails.Group.Currency.IsBaseCurrency = False AndAlso transaction.ServiceRequestDetails.ServiceRequestInvoicingMethod = ServiceRequestInvoicingMethod.Quote Then
       Dim cont As DialogResult = BreakpointHelpers.ShowYesNoMessageBox(e.Form, "Foreign Customer Detected", "This has been detected as a foreign currency service request, would you like to use the FX value of its quote?")
       For each l As Sybiz.Vision.Platform.Service.Transaction.ServiceInvoiceLine In transaction.Lines
-        l.Charge = l.QuotedBaseCharge
+        If (l.QuotedQuantity <> 0) Then
+          l.UnitCharge = l.QuotedBaseCharge / l.QuotedQuantity
+        End If
       Next
     End If
     	
