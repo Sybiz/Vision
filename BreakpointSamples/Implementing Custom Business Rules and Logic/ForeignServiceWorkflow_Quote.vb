@@ -20,7 +20,7 @@ Public Class ForeignServiceWorkflow_Quote
 				Next
 			End If
 		Else If transaction.CustomerDetails.Group.Currency.IsBaseCurrency = False AndAlso transaction.ServiceQuoteStatus = ServiceQuoteStatus.Accepted
-			BreakpointHelpers.ShowInformationMessage(e.Form, "WARNING", "This was detected as a foreign currency customer, we cannot multiple IC lines as the quote has been accepted! Revert it to pending if needed")
+			BreakpointHelpers.ShowInformationMessage(e.Form, "WARNING", "This was detected as a foreign currency customer, we cannot multiple any lines as the quote has been accepted! Revert it to pending if needed")
 	End If
 	
   End Sub
