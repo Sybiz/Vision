@@ -1,4 +1,4 @@
-﻿Public Class AddAvailableCostCentresToJobBeforeSave
+﻿Public Class CustomFieldAddorEdit
 
   'Scenario: Example snippet of how to add a new, or editing an existing custom field
   'Prerequisities: External Application breakpoint button set up with key "CustomFieldExample"
