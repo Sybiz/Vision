@@ -2,7 +2,7 @@ Public Class RemoveSavedJobCostedInvoiceLines
   'Scenario: When creating a new job costed invoice, remove any lines that exist on a previously saved transaction
   'Prerequisities: None
   
-  'Note, this methodology will 'break' if Refresh Lines is used as the previously removed lines will be removed; if this functionality is required
+  'Note, this methodology will 'break' if Refresh Lines is used as the previously removed lines will be restored; if this functionality is required
   'change the logic to not invoice the lines instead of removing them.
 
   'Breakpoint: SalesInvoiceCellValueChanged
