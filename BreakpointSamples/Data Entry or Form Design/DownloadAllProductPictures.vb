@@ -35,7 +35,7 @@ Public Module ExternalApplicationCustomRibbonButtonClick
               dl = pic.Image
               picname = dirname + Regex.Replace(p.Code, "[^A-Za-z0-9]_-", "") + "_" + piccount.ToString() + ".jpg"
               File.WriteAllBytes(picname,dl)
-              piccount =+ 1
+              piccount += 1
             Next
             piccount = 1
           End If
