@@ -1,0 +1,5 @@
+---Excel spreadsheet is for CR2509-5068 - https://partner.sybiz.com/KnowledgeBase/KnowledgeBaseDetail/130900 ---
+
+It is noted as well that resorting of it will be required, once values in column "NewPriority" are applied. Specifically
+
+Sort by Product, Then by NewPriority, Then by Priority, all smallest to largest sorting. Formulae will break if sorting not applied!
