@@ -42,7 +42,7 @@ Public Class ManufactureIssueBasedonTransferOrder
         						
         'Allocate stock
         For Each line As Sybiz.Vision.Platform.Inventory.Transaction.StockTransferOrderLine In transaction.Lines
-          If line.ProductDetails.IsAssembly Then
+          If line.ProductDetails.IsAssembly AndAlso line.ProductDetails.AssemblyDetails.CanManufactureOnDelivery = True Then
             line.QuantityAllocate = line.Quantity
           End If
         Next
